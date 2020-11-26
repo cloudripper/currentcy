@@ -8,8 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Exchange from "./Exchange";
 import Converter from "./Converter";
 
-library.add( fab, faBars, faCircle, faEnvelope, faChessQueen );
 
+library.add( fab, faBars, faCircle, faEnvelope, faChessQueen );
 
 
 const NotFound = () => {
