@@ -2,14 +2,14 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons'
-import { faBars, faCircle, faEnvelope, faChessQueen } from '@fortawesome/free-solid-svg-icons'; 
+import { faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle } from '@fortawesome/free-solid-svg-icons'; 
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Exchange from "./Exchange";
 import Converter from "./Converter";
 
 
-library.add( fab, faBars, faCircle, faEnvelope, faChessQueen );
+library.add( fab, faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle );
 
 
 const NotFound = () => {

@@ -48,8 +48,8 @@ class Exchange extends React.Component {
                 <div className="row text-center">
                     <div className="col-lg-6">
                     <div className="dropdown btn-group mt-5">
-                        <button className="btn btn-primary dropdown-toggle primCurr currCirc" type="button" id="dropdownMenuButton" data-toggle="dropdown" >1 {primaryCurrency}</button>
-                        <ul className="dropdown-menu" onChange={this.handleChange}>                            
+                        <button className="btn btn-primary dropdown-toggle primCurr currCirc" type="button" id="dropdownMenuButton" data-toggle="dropdown" >1<br/>{primaryCurrency}<br/></button>
+                        <ul className="dropdown-menu rounded" onChange={this.handleChange}>                            
                                 {currencies.map((currency, index) => {
                                            return <li key={index} currency={currency} type="button" className="dropdown-item" onClick={() => this.handleClick(currency)}>{currency}</li>
                                         }

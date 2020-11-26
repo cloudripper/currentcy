@@ -1,0 +1,21 @@
+.currCirc {
+    width: 80px;
+    height: 80px;
+    line-height: 25px;
+    text-align: center;
+    padding: 0;
+    border-radius: 50%;
+}
+
+
+.addCurr {
+    font-size: 25px;
+}
+
+.rateStyle {
+    font-weight: 700;
+}
+
+.rateCurr {
+    color: blue;
+}

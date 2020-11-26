@@ -1,7 +1,13 @@
-import { faTextHeight } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import Exchange from './Exchange';
+import './GetRates.css';
 import { json, checkStatus } from './utils';
+
+library.add( faPlusCircle );
 
 class Timer extends React.Component {
     constructor(props){
@@ -62,7 +68,7 @@ class Timer extends React.Component {
         const { stateTimer } = this.state;
 
         return (
-            <h3 className="my-2">Rate Refresh in {stateTimer}secs</h3>
+            <p className="my-2">Rate Refresh in {stateTimer}secs</p>
         )
     }
 }
@@ -71,13 +77,10 @@ class Timer extends React.Component {
 class ExchangeRate extends React.Component {
     render() {
         const { currency, rate } = this.props ;    
-        console.log("Exchange Rate Refresh:" + currency + " at " + rate)
+        const rateRounder = Math.round((rate * 1000)) / 1000;
+        console.log("Exchange Rate Refresh:" + currency + " at " + rateRounder)
         
-        return (
-            <div>
-                <h3>Currency: {currency}<br/>Exchange Rate: {rate}</h3>
-            </div>
-        ) 
+        return <button className="btn btn-secondary currCirc mx-1 my-1"><span className="rateStyle">{rateRounder}</span><br/><span className="rateCurr">{currency}</span></button>;
     }
 }
 
@@ -98,6 +101,7 @@ class ExchangeRateUpdate extends React.Component {
         
         this.fetchRates = this.fetchRates.bind(this);
         this.onParentChange = this.onParentChange.bind(this);
+        this.handleAddClick = this.handleAddClick.bind(this);
     }
 
     componentDidMount () {
@@ -109,6 +113,10 @@ class ExchangeRateUpdate extends React.Component {
         if (timerChild === 0) {
             this.fetchRates();
         }
+    }
+
+    handleAddClick() {
+        
     }
 
     fetchRates() {
@@ -149,20 +157,31 @@ class ExchangeRateUpdate extends React.Component {
         
         return (
             <div>
-                <Timer key={timerKey} timer={timer} onChange={this.onParentChange} />
-                <button onClick={this.fetchRates}>Output</button>
-                {(() => {
-                    if (error) {
-                        return <div>{error}</div>
-                    }
-                    return currencies.map((currency) => {
-                        for (var key in ratesObj) {
-                            if (currency === key) {
-                                return <ExchangeRate key={key} currency={currency} rate={ratesObj[key]}  />
-                            }
+                <div className="d-flex flex-row flex-lg-column justify-content-center border rounded bg-light mt-5"> 
+                    {(() => {
+                        if (error) {
+                            return <div>{error}</div>
                         }
-                    })
-                })()}
+                        return currencies.map((currency) => {
+                            for (var key in ratesObj) {
+                                if (currency === key) {
+                                    return <ExchangeRate key={key} currency={currency} rate={ratesObj[key]}  />
+                                }
+                            }
+                        })
+                    })()}
+                    <div className="flex-item dropdown">
+                    <button className="btn btn-secondary currCirc addCurr mx-1 my-1 dropdown-toggle" data-toggle="dropdown" onClick={this.handleAddClick}><FontAwesomeIcon icon="plus-circle" /><br/></button>
+                        <ul className="dropdown-menu">                            
+                                {currencies.map((currency) => {
+                                           return <li currency={currency} type="button" className="dropdown-item">{currency}</li>
+                                        }
+                                    )
+                                }                                  
+                        </ul>
+                    </div>
+                </div>
+                <Timer key={timerKey} timer={timer} onChange={this.onParentChange} />
             </div>
         )
     }
