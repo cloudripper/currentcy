@@ -1,0 +1,239 @@
+{
+  "list": [
+    "AUD",
+    "BGN",
+    "BRL",
+    "CAD",
+    "CHF",
+    "CNY",
+    "CZK",
+    "DKK",
+    "EUR",
+    "GBP",
+    "HKD",
+    "HRK",
+    "HUF",
+    "IDR",
+    "ILS",
+    "INR",
+    "ISK",
+    "JPY",
+    "KRW",
+    "MXN",
+    "MYR",
+    "NOK",
+    "NZD",
+    "PHP",
+    "PLN",
+    "RON",
+    "RUB",
+    "SEK",
+    "SGD",
+    "THB",
+    "TRY",
+    "USD",
+    "ZAR"
+    ],
+  "data": [{
+    "AUD": {
+      "key":"au",
+      "currency": "Australian Dollar",
+      "region": "OCEANIA",
+      "country": "AUSTRALIA"
+    },
+    "BGN": {
+      "key":"bg",
+      "currency": "Bulgarian Lev",
+      "region": "EUROPE",
+      "country": "BULGARIA"
+    },
+    "BRL": {
+      "key":"br",
+      "currency": "Brazilian Real",
+      "region": "AMERICAS",
+      "country": "BRAZIL"
+    },
+    "CAD": {
+      "key":"ca",
+      "currency": "Canadian Dollar",
+      "region": "AMERICAS",
+      "country": "CANADA"
+    },
+    "CHF": {
+      "key":"ch",
+      "currency": "Swiss Franc",
+      "region": "EUROPE",
+      "country": "SWITZERLAND"
+    },
+    "CNY": {
+      "key":"cn",
+      "currency": "Yuan Renminbi",
+      "region": "ASIA",
+      "country": "CHINA"
+    },
+    "CZK": {
+      "key":"cz",
+      "currency": "Czech Koruna",
+      "region": "EUROPE",
+      "country": "CZECHIA"
+    },
+    "DKK": {
+      "key":"dk",
+      "currency": "Danish Krone",
+      "region": "EUROPE",
+      "country": "DENMARK"
+    },
+    "EUR": {
+      "key":"eu",
+      "currency": "Euro",
+      "region": "EUROPE",
+      "country": "E.U."
+    },
+    "GBP": {
+      "key": "gb",
+      "currency": "Pound Sterling",
+      "region": "EUROPE",
+      "country": "UNITED KINDOM"
+    },
+    "HKD": {
+      "key": "hk",
+      "currency": "HK Dollar",
+      "region": "ASIA",
+      "country": "HONG KONG"
+    },
+    "HRK": {
+      "key": "hr",
+      "currency": "Kuna",
+      "region": "EUROPE",
+      "country": "CROATIA"
+    },
+    "HUF": {
+      "key": "hu",
+      "currency": "Forint",
+      "region": "EUROPE",
+      "country": "HUNGARY"
+    },
+    "IDR": {
+      "key": "id",
+      "currency": "Rupiah",
+      "region": "ASIA",
+      "country": "INDONESIA"
+    },
+    "ILS": {
+      "key": "il",
+      "currency": "New Sheqel",
+      "region": "MIDDLE EAST",
+      "country": "ISRAEL"
+    },
+    "INR": {
+      "key": "in",
+      "currency": "Indian Rupee",
+      "region": "ASIA",
+      "country": "INDIA"
+    },
+    "ISK": {
+      "key": "is",
+      "currency": "Iceland Krona",
+      "region": "EUROPE",
+      "country": "ICELAND"
+    },
+    "JPY": {
+      "key": "jp",
+      "currency": "Yen",
+      "region": "ASIA",
+      "country": "JAPAN"
+    },
+    "KRW": {
+      "key": "kr",
+      "currency": "Won",
+      "region": "ASIA",
+      "country": "S. KOREA"
+    },
+    "MXN": {
+      "key": "mx",
+      "currency": "Mexican Peso",
+      "region": "AMERICAS",
+      "country": "MEXICO"
+    },
+    "MYR": {
+      "key": "my",
+      "currency": "Ringgit",
+      "region": "ASIA",
+      "country": "MALAYSIA"
+    },
+    "NOK": {
+      "key": "no",
+      "currency": "Krone",
+      "region": "EUROPE",
+      "country": "NORWAY"
+    },
+    "NZD": {
+      "key": "nz",
+      "currency": "NZ Dollar",
+      "region": "OCEANIA",
+      "country": "NEW ZEALAND"
+    },
+    "PHP": {
+      "key": "ph",
+      "currency": "Philippine Peso",
+      "region": "ASIA",
+      "country": "PHILIPPINES"
+    },
+    "PLN": {
+      "key": "pl",
+      "currency": "Zloty",
+      "region": "EUROPE",
+      "country": "POLAND"
+    },
+    "RON": {
+      "key": "ro",
+      "currency": "Romanian Leu",
+      "region": "EUROPE",
+      "country": "ROMANIA"
+    },
+    "RUB": {
+      "key": "ru",
+      "currency": "Russian Ruble",
+      "region": "EUROPE",
+      "country": "RUSSIA"
+    },
+    "SEK": {
+      "key": "se",
+      "currency": "Swedish Krona",
+      "region": "EUROPE",
+      "country": "SWEDEN"
+    },
+    "SGD": {
+      "key": "sg",
+      "currency": "Singapore Dollar",
+      "region": "ASIA",
+      "country": "SINGAPORE"
+    },
+    "THB": {
+      "key": "th",
+      "currency": "Baht",
+      "region": "ASIA",
+      "country": "THAILAND"
+    },
+    "TRY": {
+      "key": "tr",
+      "currency": "Turkish Lira",
+      "region": "MIDDLE EAST",
+      "country": "TURKEY"
+    },
+    "USD": {
+      "key": "us",
+      "currency": "US Dollar",
+      "region": "AMERICAS",
+      "country": "UNITED STATES"
+    },
+    "ZAR": {
+      "key": "za",
+      "currency": "Rand",
+      "region": "AFRICA",
+      "country": "SOUTH AFRICA"
+    }
+  }]
+}
+  
+  

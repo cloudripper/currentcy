@@ -7,6 +7,14 @@
     border-radius: 50%;
 }
 
+#rateContainer {
+    height: 750px;
+    display: flex;
+    overflow-y: auto;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+}
 
 .addCurr {
     font-size: 25px;
@@ -18,4 +26,47 @@
 
 .rateCurr {
     color: blue;
+}
+
+.popperStyle {
+    width: 150px;
+    height: 150px;
+    border: 1px solid darkgrey ;
+    border-radius: 5%;
+    background-color: lightgrey;
+    padding: .5rem .5rem;
+}
+
+.popperStyle-hidden {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.rateBtn {
+    font-weight: 700;
+    width: 80px;
+    height: 80px;
+
+    padding: 0;
+    border-radius: 50%;  
+    color: black;
+    font-weight: 700;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: rgba(22, 109, 223, 0.397);
+    
+    padding: 0 0.75rem;
+    font-size: 1rem;
+   /* transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;*/
+}
+
+.rateBtn:hover {
+  box-shadow: 0 0 0 0.2rem rgba(52, 76, 102, 0.25);
+  font-weight: 900;
+  
 }

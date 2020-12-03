@@ -1,13 +1,53 @@
+import React from 'react';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { fab } from '@fortawesome/free-brands-svg-icons'
+import { faBlackTie } from '@fortawesome/free-brands-svg-icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
-import Exchange from './Exchange';
+import { useState, useEffect, useRef } from 'react';
+import { usePopper, createPopper } from 'react-popper';
 import './GetRates.css';
-import { json, checkStatus } from './utils';
+import { fetchFunction, rateRounder } from './utils';
+import { XChartComponent } from './GetRates';
 
 library.add( faPlusCircle );
+
+
+const ExchangeRate = (props) => {
+    const { currencyData, currency, rate } = props;
+    const [isShown, setIsShown] = useState(false);
+    const [referenceElement, setReferenceElement] = useState(null);
+    const [popperElement, setPopperElement] = useState(null);
+    const [arrowElement, setArrowElement] = useState(null);
+    const customBoundary = document.querySelector('#rateContainer')
+    const { styles, attributes } = usePopper(referenceElement, popperElement, {
+      placement: 'right',
+      modifiers: [
+          { name: 'hide' }, 
+          { name: 'applyStyles', options: { color: "green" }}, 
+          { name: 'arrow', options: { element: arrowElement, padding: 8,  }}, 
+          { name: 'offset', options: { offset: [0, 10]}}, 
+          { name: 'preventOverflow', options: { mainAxis: true, altAxis: false, padding: 0, boundary: customBoundary}}, 
+//          { name: 'flip', options: { fallbackPlacements: ['top', 'left', 'bottom']}}
+        ],
+    });
+
+    const changeToggler = () => {
+        setIsShown(!isShown)                
+    }
+
+    return (
+        <>
+            <button className="rateBtn mx-1 my-1" type="button" ref={setReferenceElement} onFocus={changeToggler} onBlur={changeToggler} >
+                <span className="rateStyle">{rateRounder(rate)}</span><br/><span className="rateCurr">{currency}</span>
+            </button>
+            <div id="popper" className={ (isShown) ? "popperStyle" : "popperStyle-hidden" } ref={setPopperElement} style={styles.popper} {...attributes.popper} onClick={changeToggler} >
+                <span style={{ fontWeight: "700" }}>{currencyData[currency]["currency"]}</span><br />{currencyData[currency]["country"]}<br /><span style={{ fontSize: ".8rem" }}>- {currencyData[currency]["region"]} -</span><br /><img src={`https://www.countryflags.io/${currencyData[currency]["key"]}/flat/64.png`} />
+                <div id="popper" className={ (isShown) ? "arrowStyle" : "arrowStyle-hidden" } ref={setArrowElement} style={styles.arrow} />
+            </div> 
+        </>
+    );
+}
+
 
 class Timer extends React.Component {
     constructor(props){
@@ -20,7 +60,7 @@ class Timer extends React.Component {
         this.stopTimer = this.stopTimer.bind(this);
         this.onTimerChange = this.onTimerChange.bind(this);
         
-        const { timer, onChange} = this.props;
+        const { timer } = this.props;
         console.log(timer);
         
     }
@@ -38,7 +78,6 @@ class Timer extends React.Component {
     }
 
     startTimer () {
-        const { stateTimer } = this.state;
         const { timer } = this.props;
         console.log("Start timer: " + timer);
 
@@ -68,43 +107,37 @@ class Timer extends React.Component {
         const { stateTimer } = this.state;
 
         return (
-            <p className="my-2">Rate Refresh in {stateTimer}secs</p>
+            <p className="my-2 mb-5">Rate Refresh in {stateTimer}secs</p>
         )
-    }
-}
-
-
-class ExchangeRate extends React.Component {
-    render() {
-        const { currency, rate } = this.props ;    
-        const rateRounder = Math.round((rate * 1000)) / 1000;
-        console.log("Exchange Rate Refresh:" + currency + " at " + rateRounder)
-        
-        return <button className="btn btn-secondary currCirc mx-1 my-1"><span className="rateStyle">{rateRounder}</span><br/><span className="rateCurr">{currency}</span></button>;
     }
 }
 
 class ExchangeRateUpdate extends React.Component {
     constructor(props){
         super(props);
-        const { baseInput } = this.props;
+        const { baseInput, currList, currData } = this.props;
         console.log("1 " + baseInput);
         this.state = { 
             base: baseInput,
-            currencies: ['HKD', 'EUR', 'MYR', 'SGD'],
+            currencies: currList,
+            currencyData: currData,
             results: [],
             error: '',
             timer: 60,
             timerKey: 1,
+            loading: 'true',
+            parentResults: [],
+            today: '',
+            chartResults: {}
         };
         console.log("2 " + this.state.base);
         
         this.fetchRates = this.fetchRates.bind(this);
         this.onParentChange = this.onParentChange.bind(this);
-        this.handleAddClick = this.handleAddClick.bind(this);
+        this.resultChange = this.resultChange.bind(this);
     }
 
-    componentDidMount () {
+    componentDidMount () {       
         this.fetchRates();
     }
     
@@ -115,76 +148,84 @@ class ExchangeRateUpdate extends React.Component {
         }
     }
 
-    handleAddClick() {
-        
+
+    resultChange(e) {
+        console.log(e);
     }
 
-    fetchRates() {
-        const { base, results, error, timerKey } = this.state; 
-        
+    async fetchRates() {
+        const { base } = this.state;
+        const fetchResults = await fetchFunction(base);
 
-        if ({base} === '') {
-            return console.log("No Base Set - Placeholder for full-list fetch");
-        }
-            fetch(`https://alt-exchange-rate.herokuapp.com/latest?base=${base}`)
-            .then(checkStatus)
-            .then(json)
-            .then((data) => {
-                const keyVar = timerKey + 1;
-                this.state.results.push(data.rates);
-                this.setState({ 
-                    timer: 60,
-                    timerKey: keyVar,
-                    results: results.slice(-1)
-                }); 
-            }).catch((error) =>  {
-                this.setState({ error: error.message });
-                console.log(error);
-            })    
+        this.setState({ 
+            results: fetchResults[0][fetchResults[1]],
+            loading: 'false',
+            today: fetchResults[1],
+            chartResults: fetchResults[0]
+        });
     }
-
+        
     render() {
-
         const {
+            base,
             results, 
             currencies,
             error,
             timer,
-            timerKey
+            timerKey,
+            loading,
+            currencyData,
+            today
         } = this.state;
 
-        const ratesObj = results[0];
-        
-        return (
-            <div>
-                <div className="d-flex flex-row flex-lg-column justify-content-center border rounded bg-light mt-5"> 
-                    {(() => {
-                        if (error) {
-                            return <div>{error}</div>
-                        }
-                        return currencies.map((currency) => {
-                            for (var key in ratesObj) {
-                                if (currency === key) {
-                                    return <ExchangeRate key={key} currency={currency} rate={ratesObj[key]}  />
-                                }
+        if (loading === 'true') {
+            return <div className="d-flex flex-row flex-lg-column justify-content-center border rounded bg-light mt-5 rateContainer"><p>Loading data...</p></div>;
+        }
+
+        if (loading === 'false') {
+            const ratesObj = results;
+            console.log('Render ', ratesObj)
+            const currencyArr = [];
+            const columnCount = 8;
+            
+            return (
+                <div>
+                    <div className="justify-content-center border rounded bg-light mt-5" id="rateContainer"> 
+                        {(() => {
+                            if (error) {
+                                return <div>{error}</div>
                             }
-                        })
-                    })()}
-                    <div className="flex-item dropdown">
-                    <button className="btn btn-secondary currCirc addCurr mx-1 my-1 dropdown-toggle" data-toggle="dropdown" onClick={this.handleAddClick}><FontAwesomeIcon icon="plus-circle" /><br/></button>
-                        <ul className="dropdown-menu">                            
-                                {currencies.map((currency) => {
-                                           return <li currency={currency} type="button" className="dropdown-item">{currency}</li>
-                                        }
-                                    )
-                                }                                  
-                        </ul>
+                            return currencies.map((currency) => {
+                        
+                                for (var key in ratesObj) {                               
+                                    currencyArr.push(key)
+                                    if (currency === key && currency !== base) {     
+                                        return <ExchangeRate key={key} currencyData={currencyData} currency={currency} rate={ratesObj[key]}  />
+                                    }
+                                }
+                                return;
+                            })
+                        })()}
+
                     </div>
+                    
+                    <Timer key={timerKey} timer={timer} onChange={this.onParentChange} />
                 </div>
-                <Timer key={timerKey} timer={timer} onChange={this.onParentChange} />
-            </div>
-        )
+            )
+        }
     }
 }
 
 export default ExchangeRateUpdate; 
+
+
+//<div className="flex-item dropdown">
+//<button className="btn btn-secondary currCirc addCurr mx-1 my-1 dropdown-toggle" data-toggle="dropdown" onClick={this.handleAddClick}><FontAwesomeIcon icon="plus-circle" /><br/></button>
+//    <div className="dropdown-menu">                            
+//            {currencies.map((currency) => {
+//                if (currency !== base) {
+//                    return <p currency={currency} type="button" className="dropdown-item col-3">{currency}</p>
+//                }
+//            })}                                  
+//    </div>
+//</div>

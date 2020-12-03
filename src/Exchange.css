@@ -1,12 +1,108 @@
-.primCurr {
+#root {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.customDropdownItem {
+    padding-top: .25rem !important;
+    padding-bottom: .25rem !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+ 
     
+
+}
+
+.customMenu {
+    border-color: grey;
+    border-radius: 10%;
+    overflow-x: auto;
+    height: 200px;
+}
+
+.dropdown-menu.show {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 200px;
+    width: 250px !important;
+    background-color: grey;
+}
+
+.primaryBtn {
+  background-color:rgba(255, 255, 255, 0.75)
+}
+
+.btnTxt {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1rem;
+}
+
+.customBtn {
     font-weight: 700;
     width: 80px;
     height: 80px;
-    line-height: 20px;
-    text-align: center;
+
     padding: 0;
-    border-radius: 50%;
+    border-radius: 50%;  
+    color: black;
+    font-weight: 700;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-bottom: 0;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     
-      
+    padding: 0 0.75rem;
+    font-size: 1rem;
+   /* transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;*/
 }
+
+.customBtn:hover {
+  box-shadow: 0 0 0 0.2rem rgba(52, 76, 102, 0.25);
+  font-weight: 900;
+  
+}
+
+.btnBg  {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;  
+  object-fit: cover; 
+  position: absolute;
+  width: 100%;
+  top: -0.5px;
+  left: 0;
+  opacity: 20%;
+  background-size: 125px;
+  background-position: center;
+  border: 3px solid rgba(102, 153, 247, 0.322);
+}
+
+.btnBg:hover {
+  opacity: 100%;
+ 
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    .customBtn {
+      transition: none;
+    }
+  }
+  
+  .btnBg:hover {
+    opacity: 35%;
+    text-decoration: none;
+  }
+  
+  .customBtn:focus, .btn.focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }

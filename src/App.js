@@ -7,6 +7,8 @@ import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Exchange from "./Exchange";
 import Converter from "./Converter";
+import ExchangeRateUpdate from './GetRates';
+// import FetchFunction from './utils';
 
 
 library.add( fab, faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle );
@@ -15,6 +17,16 @@ library.add( fab, faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle );
 const NotFound = () => {
   return <h2>404: Nadda herea</h2>
 }
+
+//function ContextParent(props) {
+//  const { parentBase, parentResults } = this.props;
+//
+//  <FetchFunction base={parentBase} results={parentResults} />
+//
+//  return results;
+//      <img src='./bgimg.jpg' style={{ position: "absolute", zIndex: "-1",  objectFit: "cover", opacity: "50%" }} />
+
+//}
 
 const App = () => {
   return (
