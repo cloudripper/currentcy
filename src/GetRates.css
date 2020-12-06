@@ -33,7 +33,7 @@
     height: 150px;
     border: 1px solid darkgrey ;
     border-radius: 5%;
-    background-color: lightgrey;
+    background-color: rgb(116, 133, 196);
     padding: .5rem .5rem;
 }
 
@@ -46,7 +46,7 @@
     font-weight: 700;
     width: 80px;
     height: 80px;
-
+    margin: 4px !important;
     padding: 0;
     border-radius: 50%;  
     color: black;
@@ -58,8 +58,6 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background-color: rgba(22, 109, 223, 0.397);
-    
     padding: 0 0.75rem;
     font-size: 1rem;
    /* transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;*/
@@ -68,5 +66,11 @@
 .rateBtn:hover {
   box-shadow: 0 0 0 0.2rem rgba(52, 76, 102, 0.25);
   font-weight: 900;
-  
+}
+
+.btnOn {
+    background-color: rgba(70, 92, 172, 0.6);
+}
+.btnOff {
+    background-color: rgba(166, 168, 175, 0.6);
 }

@@ -7,8 +7,6 @@ import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Exchange from "./Exchange";
 import Converter from "./Converter";
-import ExchangeRateUpdate from './GetRates';
-// import FetchFunction from './utils';
 
 
 library.add( fab, faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle );
@@ -54,7 +52,7 @@ const App = () => {
         <div className="d-flex justify-content-center contactLinks pb-2">
             <a href="https://github.com/cloudripper"><FontAwesomeIcon icon={['fab', 'github']} /></a>
             <p className="dotFormat my-auto mx-2 mx-sm-2 mx-md-3 mx-lg-4 mx-xl-5"><FontAwesomeIcon icon="circle" /></p>
-            <a href="#"><FontAwesomeIcon icon={['fab', 'linkedin']} /></a>
+            <a href="https://github.com/cloudripper"><FontAwesomeIcon icon={['fab', 'linkedin']} /></a>
             <p className="dotFormat my-auto mx-2 mx-sm-2 mx-md-3 mx-lg-4 mx-xl-5"><FontAwesomeIcon icon="circle" /></p>
             <a href="mailto: info@verticalwild.com"><FontAwesomeIcon icon="envelope" /></a>      
         </div>

@@ -7,19 +7,23 @@ import { useState, useEffect, useRef } from 'react';
 import { usePopper, createPopper } from 'react-popper';
 import './GetRates.css';
 import { fetchFunction, rateRounder } from './utils';
-import { XChartComponent } from './GetRates';
+import { RateChart, useCustom } from './Exchange';
+
 
 library.add( faPlusCircle );
 
 
 const ExchangeRate = (props) => {
-    const { currencyData, currency, rate } = props;
+    const [ baseState, setBaseState ] = useCustom();
+    const { currencyData, currency, rate, onSelect } = props;
     const [isShown, setIsShown] = useState(false);
     const [referenceElement, setReferenceElement] = useState(null);
     const [popperElement, setPopperElement] = useState(null);
     const [arrowElement, setArrowElement] = useState(null);
+    const [changeAlt, setChangeAlt] = useState(null);
     const customBoundary = document.querySelector('#rateContainer')
     const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    
       placement: 'right',
       modifiers: [
           { name: 'hide' }, 
@@ -31,25 +35,47 @@ const ExchangeRate = (props) => {
         ],
     });
 
-    const changeToggler = () => {
-        setIsShown(!isShown)                
+    const changeAltBase = (e) => {
+      //  setBaseState({ altBase: e.target.value })
     }
 
-    return (
-        <>
-            <button className="rateBtn mx-1 my-1" type="button" ref={setReferenceElement} onFocus={changeToggler} onBlur={changeToggler} >
-                <span className="rateStyle">{rateRounder(rate)}</span><br/><span className="rateCurr">{currency}</span>
-            </button>
-            <div id="popper" className={ (isShown) ? "popperStyle" : "popperStyle-hidden" } ref={setPopperElement} style={styles.popper} {...attributes.popper} onClick={changeToggler} >
-                <span style={{ fontWeight: "700" }}>{currencyData[currency]["currency"]}</span><br />{currencyData[currency]["country"]}<br /><span style={{ fontSize: ".8rem" }}>- {currencyData[currency]["region"]} -</span><br /><img src={`https://www.countryflags.io/${currencyData[currency]["key"]}/flat/64.png`} />
-                <div id="popper" className={ (isShown) ? "arrowStyle" : "arrowStyle-hidden" } ref={setArrowElement} style={styles.arrow} />
-            </div> 
-        </>
-    );
+    //const handleClick = (currency) => {
+    //    console.log('Bottom Level: ', currency)
+    //    this.props.onSelect(currency)
+    //}
+
+    //useEffect({
+    //    const handleClick = (currency) => {
+    //        console.log('Bottom Level: ', currency)
+    //        this.props.onSelect(currency)
+    //    }
+    //})
+
+
+
+    const changeToggler = (e) => {
+       // console.log(e.target)
+      //  e.target.style.backgroundColor = (isShown ? "rgba(166, 168, 175, 0.6);" : "yellow")
+        setIsShown(!isShown)
+        
+    }
+
+
+   return (
+       <>
+           <button className={ (isShown) ? "rateBtn btnOn" : "rateBtn btnOff" } type="button" ref={setReferenceElement} value={currency} onFocus={ changeToggler } onBlur={changeToggler} onClick={changeAltBase}>
+               <span className="rateStyle">{rateRounder(rate)}</span><br/><span className="rateCurr">{currency}</span>
+           </button>
+           <div id="popper" className={ (isShown) ? "popperStyle" : "popperStyle-hidden" } ref={setPopperElement} style={styles.popper} {...attributes.popper} onClick={changeToggler} >
+               <span style={{ fontWeight: "700" }}>{currencyData[currency]["currency"]}</span><br />{currencyData[currency]["country"]}<br /><span style={{ fontSize: ".8rem" }}>- {currencyData[currency]["region"]} -</span><br /><img className="mt-2" src={`https://flagcdn.com/64x48/${currencyData[currency]["key"]}.png`} />
+               <div id="popper" className={ (isShown) ? "arrowStyle" : "arrowStyle-hidden" } ref={setArrowElement} style={styles.arrow} />
+           </div> 
+       </>
+   );
 }
 
 
-class Timer extends React.Component {
+export class Timer extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -115,13 +141,13 @@ class Timer extends React.Component {
 class ExchangeRateUpdate extends React.Component {
     constructor(props){
         super(props);
-        const { baseInput, currList, currData } = this.props;
+        const { baseInput, currList, currData, parentResults } = this.props;
         console.log("1 " + baseInput);
         this.state = { 
             base: baseInput,
             currencies: currList,
             currencyData: currData,
-            results: [],
+            results: parentResults,
             error: '',
             timer: 60,
             timerKey: 1,
@@ -132,19 +158,19 @@ class ExchangeRateUpdate extends React.Component {
         };
         console.log("2 " + this.state.base);
         
-        this.fetchRates = this.fetchRates.bind(this);
+      //  this.fetchRates = this.fetchRates.bind(this);
         this.onParentChange = this.onParentChange.bind(this);
         this.resultChange = this.resultChange.bind(this);
     }
 
     componentDidMount () {       
-        this.fetchRates();
+    //    this.fetchRates();
     }
     
     onParentChange(e) {  
         let timerChild = e;
         if (timerChild === 0) {
-            this.fetchRates();
+           this.fetchRates();
         }
     }
 
@@ -152,19 +178,18 @@ class ExchangeRateUpdate extends React.Component {
     resultChange(e) {
         console.log(e);
     }
-
-    async fetchRates() {
-        const { base } = this.state;
-        const fetchResults = await fetchFunction(base);
-
-        this.setState({ 
-            results: fetchResults[0][fetchResults[1]],
-            loading: 'false',
-            today: fetchResults[1],
-            chartResults: fetchResults[0]
-        });
-    }
-        
+//
+    //async fetchRates() {
+    //    const { base } = this.state;
+    //    const fetchResults = await fetchFunction(base);
+    //    this.setState({ 
+    //        results: fetchResults[0][fetchResults[1]],
+    //        loading: 'false',
+    //        today: fetchResults[1],
+    //        chartResults: fetchResults[0]
+    //    });
+    //}
+    //    
     render() {
         const {
             base,
@@ -178,16 +203,10 @@ class ExchangeRateUpdate extends React.Component {
             today
         } = this.state;
 
-        if (loading === 'true') {
-            return <div className="d-flex flex-row flex-lg-column justify-content-center border rounded bg-light mt-5 rateContainer"><p>Loading data...</p></div>;
-        }
 
-        if (loading === 'false') {
             const ratesObj = results;
             console.log('Render ', ratesObj)
-            const currencyArr = [];
-            const columnCount = 8;
-            
+     
             return (
                 <div>
                     <div className="justify-content-center border rounded bg-light mt-5" id="rateContainer"> 
@@ -198,7 +217,6 @@ class ExchangeRateUpdate extends React.Component {
                             return currencies.map((currency) => {
                         
                                 for (var key in ratesObj) {                               
-                                    currencyArr.push(key)
                                     if (currency === key && currency !== base) {     
                                         return <ExchangeRate key={key} currencyData={currencyData} currency={currency} rate={ratesObj[key]}  />
                                     }
@@ -206,14 +224,11 @@ class ExchangeRateUpdate extends React.Component {
                                 return;
                             })
                         })()}
-
-                    </div>
+                    </div>  
                     
-                    <Timer key={timerKey} timer={timer} onChange={this.onParentChange} />
                 </div>
             )
-        }
-    }
+      }
 }
 
 export default ExchangeRateUpdate; 
