@@ -16,9 +16,6 @@
 
 }
 
-.addCurr {
-    font-size: 25px;
-}
 
 .rateStyle {
     font-weight: 700;
@@ -60,6 +57,7 @@
     user-select: none;
     padding: 0 0.75rem;
     font-size: 1rem;
+    background-color: rgba(166, 168, 175, 0.6);
    /* transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;*/
 }
 
@@ -68,9 +66,6 @@
   font-weight: 900;
 }
 
-.btnOn {
+.rateBtn:focus {
     background-color: #93d9d9;
-}
-.btnOff {
-    background-color: rgba(166, 168, 175, 0.6);
 }

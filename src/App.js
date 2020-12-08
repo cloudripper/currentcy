@@ -6,7 +6,10 @@ import { faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle } from '@forta
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Exchange from "./Exchange";
+import { useCurrency } from "./Exchange";
 import Converter from "./Converter";
+import { useState, useEffect, useRef, useReducer } from 'react';
+import { fetchCurrencyList, fetchFunction, dateIterate } from './utils';
 
 
 library.add( fab, faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle );
@@ -16,17 +19,46 @@ const NotFound = () => {
   return <h2>404: Nadda herea</h2>
 }
 
-//function ContextParent(props) {
-//  const { parentBase, parentResults } = this.props;
-//
-//  <FetchFunction base={parentBase} results={parentResults} />
-//
-//  return results;
-//      <img src='./bgimg.jpg' style={{ position: "absolute", zIndex: "-1",  objectFit: "cover", opacity: "50%" }} />
-
-//}
-
 const App = () => {
+  const [ base, setBase ] = useState('USD')
+  const [ altBase, setAltBase ] = useState('HKD')
+  const [ key, setKey ] = useState(0)
+  const [ dataKey, setDataKey ] = useState(0)
+  //const [ listKey, setListKey ] = useState(0)
+  const [ fetchResults, setFetchResults ] = useState(null)
+  const [ fetchList, setFetchList ] = useState(null)
+
+
+  useEffect(() => {    
+    fetchJSON()
+  }, [])
+
+  const changeAltBase = (currency) => {
+    setAltBase(currency)
+  }
+  
+  const changeBase = async (currency) => {
+    setBase(currency)
+    const results = await fetchFunction(currency);
+    await setFetchResults(results)
+    await setKey(key + 1)
+    console.log('base? ', base)
+  }
+
+  const fetchJSON = async () => {
+    const rates = await fetchFunction(base);
+    const list = await fetchCurrencyList();
+    await setFetchList(list)
+    await setFetchResults(rates)
+    await setKey(key + 1)
+  }
+
+  //const fetchCurrencyJSON = async () => {
+  //  const currJSON = await fetchCurrencyList();
+  //  await setFetchList(currJSON)
+  //  await setListKey(listKey + 1)
+  //}
+
   return (
     <Router>
       <nav className="navbar navbar-expand-md bg-dark nav-font">
@@ -44,8 +76,8 @@ const App = () => {
         </div>
       </nav>
       <Switch>
-        <Route path="/" exact component={Exchange} />
-        <Route path="/calc" component={Converter} />
+        <Route path="/" exact render={() => <Exchange key={key} base={base} altCurr={altBase} currencyList={fetchList} fetchData={fetchResults} onChangeAltBase={ changeAltBase } onChangeBase={ changeBase } />} />
+        <Route path="/calc" render={() => <Converter key={key} base={base} altCurr={altBase} currencyList={fetchList} fetchData={fetchResults} onChangeAltBase={ changeAltBase } onChangeBase={ changeBase } />} />
         <Route component={NotFound} />
       </Switch>
       <footer className="footer pt-3 pb-2 d-flex flew-row">

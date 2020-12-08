@@ -3,18 +3,18 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBlackTie } from '@fortawesome/free-brands-svg-icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useReducer, useContext } from 'react';
 import { usePopper, createPopper } from 'react-popper';
 import './GetRates.css';
 import { fetchFunction, rateRounder } from './utils';
-import { RateChart, useCustom } from './Exchange';
+import { RateChart, useCustom, useCurrency, currencyContext } from './Exchange';
 
 
 library.add( faPlusCircle );
 
 
 const ExchangeRate = (props) => {
-    const [ baseState, setBaseState ] = useCustom();
+    //const [ baseState, setBaseState ] = useCustom();
     const { currencyData, currency, rate, onSelect } = props;
     const [isShown, setIsShown] = useState(false);
     const [referenceElement, setReferenceElement] = useState(null);
@@ -22,6 +22,8 @@ const ExchangeRate = (props) => {
     const [arrowElement, setArrowElement] = useState(null);
     const [changeAlt, setChangeAlt] = useState(null);
     const customBoundary = document.querySelector('#rateContainer')
+    // const [ state, dispatch ] = useReducer(currencyReducer, { altBase: 'HKD' })
+
     const { styles, attributes } = usePopper(referenceElement, popperElement, {
     
       placement: 'right',
@@ -35,9 +37,14 @@ const ExchangeRate = (props) => {
         ],
     });
 
-    const changeAltBase = (e) => {
-      //  setBaseState({ altBase: e.target.value })
-    }
+    useEffect(() => {
+        
+    }, [])
+
+   // const changeAltBase = (e) => {
+   //     console.log("what is currency?: ", e)
+  ////      setBaseState({ altBase: e })
+   // }
 
     //const handleClick = (currency) => {
     //    console.log('Bottom Level: ', currency)
@@ -60,11 +67,11 @@ const ExchangeRate = (props) => {
         
     }
 
-
+//{(e) => changeAltBase(currency)}>
    return (
        <>
-           <button className={ (isShown) ? "rateBtn btnOn" : "rateBtn btnOff" } type="button" ref={setReferenceElement} value={currency} onFocus={ changeToggler } onBlur={changeToggler} onClick={changeAltBase}>
-               <span className="rateStyle">{rateRounder(rate)}</span><br/><span className="rateCurr">{currency}</span>
+           <button className={ (isShown) ? "rateBtn btnOn" : "rateBtn btnOff" } type="button" ref={setReferenceElement} value={currency} onFocus={ changeToggler } onBlur={changeToggler} > 
+               <span className="rateStyle" value={currency}>{rateRounder(rate)}</span><br/><span className="rateCurr" value={currency}>{currency}</span>
            </button>
            <div id="popper" className={ (isShown) ? "popperStyle" : "popperStyle-hidden" } ref={setPopperElement} style={styles.popper} {...attributes.popper} onClick={changeToggler} >
                <span style={{ fontWeight: "700" }}>{currencyData[currency]["currency"]}</span><br />{currencyData[currency]["country"]}<br /><span style={{ fontSize: ".8rem" }}>- {currencyData[currency]["region"]} -</span><br /><img className="mt-2" src={`https://flagcdn.com/64x48/${currencyData[currency]["key"]}.png`} />

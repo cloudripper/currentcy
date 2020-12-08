@@ -40,10 +40,9 @@ export const dateIterate = (start, end) => {
     const startDate = new Date(start)
     const startMilli = startDate.getTime()
     const datesArray = []
-   // const totalDays = (currentMilli - startMilli) / 86400000
-    
+
     let milliDayCounter = startMilli
- //   console.log("start: ", startMilli, " End: ", currentMilli)
+
     while (milliDayCounter <= currentMilli) {
         milliDayCounter = milliDayCounter + 86400000
         let dateRaw = new Date(milliDayCounter)
@@ -63,13 +62,10 @@ export const dateIterate = (start, end) => {
             return dd
         }
         let date = [year, month(), day()].join('-');
-      //  console.log("date:  ", date)
         datesArray.push(date)
-//        console.log("Array: ", datesArray);
     }
     
     return datesArray
-    //return console.log("Current date milli: ", current, ". Start millisecs ", startMilli)
 }
 
 
@@ -110,6 +106,7 @@ const dateFormat = () => {
 
 
 export async function fetchFunction(base) {
+    
     const response = []
     const date = dateFormat()
     const currentDate = date[0]
@@ -136,7 +133,6 @@ export async function fetchFunction(base) {
 }
 
 export async function fetchCurrencyList() {
-   
     const currencyJSON = await fetch("./currencylist.json")
     .then(checkStatus)
     .then(json)
