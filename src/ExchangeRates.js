@@ -56,39 +56,36 @@ export const ExchangeRates = (props) => {
      }
 
     return (
-        <div>
-            <div className="justify-content-center border rounded bg-light mt-5" id="rateContainer"> 
-                {(() => {
 
-                    return currencies.map((currency) => {
-                        for (var key in results) {                               
-                            if (currency === key && currency !== base) {     
+        <div className="d-flex justify-content-center border mt-5" id="rateContainer"> 
+            {(() => {
+                return currencies.map((currency) => {
+                    for (var key in results) {                               
+                        if (currency === key && currency !== base) {     
 
-                                let rate = results[key]
-                                //<button className={ (isShown) ? "rateBtn btnOn" : "rateBtn btnOff" } type="button" ref={setReferenceElement} value={currency} onFocus={ changeToggler(key) } onBlur={ changeToggler(key) } onClick={() => {props.handleAltChange(currency)}}> 
-                            //    <div id="popper" className={ (isShown) ? "popperStyle" : "popperStyle-hidden" } ref={setPopperElement} style={styles.popper} {...attributes.popper} onClick={changeToggler} >
-                            //    <span style={{ fontWeight: "700" }}>{currencyData[currency]["currency"]}</span><br />{currencyData[currency]["country"]}<br /><span style={{ fontSize: ".8rem" }}>- {currencyData[currency]["region"]} -</span><br /><img className="mt-2" src={`https://flagcdn.com/64x48/${currencyData[currency]["key"]}.png`} />
-                            //    <div id="popper" className={ (isShown) ? "arrowStyle" : "arrowStyle-hidden" } ref={setArrowElement} style={styles.arrow} />
-                            //</div> 
-                                return (
-                                    <>
-                                        <button className="rateBtn" type="button" ref={setReferenceElement} value={currency} onFocus={ changeToggler } onBlur={ changeToggler } onClick={() => {props.handleAltChange(currency)}}> 
-                                            <span className="rateStyle" value={currency}>{rateRounder(rate)}</span><br/><span className="rateCurr" value={currency}>{currency}</span>
-                                        </button>
-                                        <div id="popper" className={ (isShown) ? "popperStyle" : "popperStyle-hidden" } ref={setPopperElement} style={styles.popper} {...attributes.popper} onClick={changeToggler} >
-                                            <span style={{ fontWeight: "700" }}>{currencyData[currency]["currency"]}</span><br />{currencyData[currency]["country"]}<br /><span style={{ fontSize: ".8rem" }}>- {currencyData[currency]["region"]} -</span><br /><img className="mt-2" src={`https://flagcdn.com/64x48/${currencyData[currency]["key"]}.png`} />
-                                            <div id="popper" className={ (isShown) ? "arrowStyle" : "arrowStyle-hidden" } ref={setArrowElement} style={styles.arrow} />
-                                        </div> 
-                                    </>
-                                );
-//
-                            }
+                            let rate = results[key]
+                            //<button className={ (isShown) ? "rateBtn btnOn" : "rateBtn btnOff" } type="button" ref={setReferenceElement} value={currency} onFocus={ changeToggler(key) } onBlur={ changeToggler(key) } onClick={() => {props.handleAltChange(currency)}}> 
+                        //    <div id="popper" className={ (isShown) ? "popperStyle" : "popperStyle-hidden" } ref={setPopperElement} style={styles.popper} {...attributes.popper} onClick={changeToggler} >
+                        //    <span style={{ fontWeight: "700" }}>{currencyData[currency]["currency"]}</span><br />{currencyData[currency]["country"]}<br /><span style={{ fontSize: ".8rem" }}>- {currencyData[currency]["region"]} -</span><br /><img className="mt-2" src={`https://flagcdn.com/64x48/${currencyData[currency]["key"]}.png`} />
+                        //    <div id="popper" className={ (isShown) ? "arrowStyle" : "arrowStyle-hidden" } ref={setArrowElement} style={styles.arrow} />
+                        //</div> 
+                            return (
+                                <>
+                                    <button className="rateBtn" type="button" ref={setReferenceElement} value={currency} onFocus={ changeToggler } onBlur={ changeToggler } onClick={() => {props.handleAltChange(currency)}}> 
+                                        <span className="rateStyle" value={currency}>{rateRounder(rate)}</span><br/><span className="rateCurr" value={currency}>{currency}</span>
+                                    </button>
+                                    <div id="popper" className={ (isShown) ? "popperStyle" : "popperStyle-hidden" } ref={setPopperElement} style={styles.popper} {...attributes.popper} onClick={changeToggler} >
+                                        <span style={{ fontWeight: "700" }}>{currencyData[currency]["currency"]}</span><br />{currencyData[currency]["country"]}<br /><span style={{ fontSize: ".8rem" }}>- {currencyData[currency]["region"]} -</span><br /><img className="mt-2" src={`https://flagcdn.com/64x48/${currencyData[currency]["key"]}.png`} />
+                                        <div id="popper" className={ (isShown) ? "arrowStyle" : "arrowStyle-hidden" } ref={setArrowElement} style={styles.arrow} />
+                                    </div> 
+                                </>
+                            );
                         }
-                        return;
-                    })
-                })()}
-            </div>  
-        </div>
+                    }
+                    return;
+                })
+            })()}
+        </div>  
     )
 }
 

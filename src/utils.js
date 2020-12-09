@@ -34,10 +34,30 @@ export const json = (response) => response.json()
 //        return dateJoin;
 //}
 
+const wkendChk = (date) => {
+    let weekendChk = new Date(date)
+    let wkndMilli = weekendChk.getTime()
+
+    while (weekendChk.getDay() > 5 || weekendChk.getDay() < 1) {
+        wkndMilli = wkndMilli + 86400000
+        weekendChk = new Date(wkndMilli)
+        console.log(wkndMilli, ' and ', weekendChk)
+    }
+    return weekendChk;
+}
+//    let dd = weekendChk.getDate()
+//    if (dd.toString().length < 2) {
+//        return '0' + dd
+//    } 
+//    return dd
+//}
+
+
 export const dateIterate = (start, end) => {
     const endDate = new Date(end)
     const currentMilli = endDate.getTime()
-    const startDate = new Date(start)
+    const startDate = wkendChk(start)
+    
     const startMilli = startDate.getTime()
     const datesArray = []
 

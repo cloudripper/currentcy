@@ -5,6 +5,7 @@ import ExchangeRates from './ExchangeRates';
 import { fetchCurrencyList, fetchFunction, dateIterate } from './utils';
 import { Line } from 'react-chartjs-2';
 import { useState, useEffect, useRef, useReducer, createContext, useContext } from 'react';
+import { withRouter } from 'react-router-dom';
 
 
 //let listeners = [];
@@ -54,8 +55,6 @@ export const useDataReducer = (state, action) => {
     
         console.log('should return data: ', data)
         return data; 
-    
-
 }   
 
 
@@ -90,13 +89,16 @@ export const RateChart = (props) => {
 
 
     
+    
 
     const chart = (data) => {
+        
         setChartData({
             labels: rangeArray,
             datasets: [
                 {
                     label: `${base}-${altBase} Exchange Range`,
+                    
                     data: data,
                     backgroundColor: [
                         'rgba(75, 192, 192, 0.6)'
@@ -135,14 +137,22 @@ export const RateChart = (props) => {
     })
 
     return(
-        <div>
+        <div id="chartStyle">
             <Line data={chartData} options={{
                 height: "250px",
                 title: {text: `5-Year Rate Trend`, display: true},
+                legends: {
+                    fontColor: '#93d9d9',
+                    labels: {
+                        fontColor: '#93d9d9',
+                    }
+                },
                 scales: {
                     yAxes: [{
                             ticks: {
                                 autoSkip: true,
+                                fontColor: 'lightgray',
+                                padding: -5,
                                 //maxTicksLimit: 10,
                                // beginAtZero: true,
                             }, 
@@ -153,7 +163,11 @@ export const RateChart = (props) => {
                     xAxes: [
                         {
                             ticks: {
-                                maxRotation: 25,
+                                autoSkip: true,
+                                autoSkipPadding: 5,
+                                maxRotation: 30,
+                                fontColor: 'lightgray',
+                                padding: -2,
                               //  stepSize: 1
                             },
                             gridLines: {
@@ -210,6 +224,7 @@ class Exchange extends React.Component {
 
     fetchProcess() {
         const { fetchData } = this.props
+        console.log('xchange Data Process: ', fetchData)
         if (fetchData) {
             this.setState({
                 loading: false,

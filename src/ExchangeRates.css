@@ -8,21 +8,24 @@
 }
 
 #rateContainer {
+    border-radius: 15px;
     height: 750px;
     display: flex;
     overflow-y: auto;
     flex-direction: column;
     flex-wrap: wrap;
+    background: linear-gradient(270deg,#4f6373,#0b273c);
 
 }
 
 
 .rateStyle {
     font-weight: 700;
+    color: white;
 }
 
 .rateCurr {
-    color: blue;
+    color:#003496;
 }
 
 .popperStyle {
@@ -65,6 +68,7 @@
   box-shadow: 0 0 0 0.2rem rgba(52, 76, 102, 0.25);
   font-weight: 900;
 }
+
 
 .rateBtn:focus {
     background-color: #93d9d9;

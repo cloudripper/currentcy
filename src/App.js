@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons'
-import { faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle } from '@fortawesome/free-solid-svg-icons'; 
+import { faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle, faCommentsDollar } from '@fortawesome/free-solid-svg-icons'; 
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Exchange from "./Exchange";
@@ -12,7 +12,7 @@ import { useState, useEffect, useRef, useReducer } from 'react';
 import { fetchCurrencyList, fetchFunction, dateIterate } from './utils';
 
 
-library.add( fab, faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle );
+library.add( fab, faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle, faCommentsDollar );
 
 
 const NotFound = () => {
@@ -34,10 +34,24 @@ const App = () => {
   }, [])
 
   const changeAltBase = (currency) => {
-    setAltBase(currency)
+    if (base !== currency) {
+      setAltBase(currency)
+      setKey(key + 1)
+    } else {
+      console.log('Base and AltBase are the same. Select another currency.')
+      return <div>Select another currency</div>
+    }
   }
   
   const changeBase = async (currency) => {
+    if (currency === altBase) {
+      if (altBase !== 'AUD') {
+        setAltBase('AUD')
+      } else {
+        setAltBase('HKD')
+      }
+    }
+
     setBase(currency)
     const results = await fetchFunction(currency);
     await setFetchResults(results)
@@ -62,7 +76,7 @@ const App = () => {
   return (
     <Router>
       <nav className="navbar navbar-expand-md bg-dark nav-font">
-        <Link className="navbar-brand nav-font" to="/"><FontAwesomeIcon icon="chess-queen" /> Currentsy</Link>
+        <Link className="navbar-brand nav-font" to="/"><FontAwesomeIcon id="brandIcon" icon="comments-dollar" /> Currentsy</Link>
         <button className="navbar-toggler" type="button" data-toggler="collapse" data-target="#navbarMenu"><FontAwesomeIcon id="menuIcon" icon="bars" /></button>
         <div className="collapse navbar-collapse" id="navbarMenu">
           <ul className="navbar-nav ml-auto">
@@ -77,7 +91,7 @@ const App = () => {
       </nav>
       <Switch>
         <Route path="/" exact render={() => <Exchange key={key} base={base} altCurr={altBase} currencyList={fetchList} fetchData={fetchResults} onChangeAltBase={ changeAltBase } onChangeBase={ changeBase } />} />
-        <Route path="/calc" render={() => <Converter key={key} base={base} altCurr={altBase} currencyList={fetchList} fetchData={fetchResults} onChangeAltBase={ changeAltBase } onChangeBase={ changeBase } />} />
+        <Route render={() => <Converter key={key} primBase={base} altCurr={altBase} currencyList={fetchList} fetchData={fetchResults} onChangeAltBase={ changeAltBase } onChangeBase={ changeBase } />} />
         <Route component={NotFound} />
       </Switch>
       <footer className="footer pt-3 pb-2 d-flex flew-row">

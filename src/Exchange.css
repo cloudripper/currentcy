@@ -106,3 +106,12 @@
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
+
+  #chartStyle {
+    margin-top: 25px;
+    padding: 10px 0;
+    border: 2px solid darkgray;
+    border-radius: 15px;
+    background-color:  rgba(0,0,0,.75);
+    color: white;
+  }

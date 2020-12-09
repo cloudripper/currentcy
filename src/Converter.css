@@ -1,0 +1,53 @@
+#contentsStyle {
+    border: black;
+    border-radius: 10px;
+    background: linear-gradient(270deg,#4f6373,#0b273c);
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.currencyStyle {
+    color: white;
+    font-weight: 600;
+    padding: 0 5px;
+}
+
+#inputBaseAmount {
+    width: 100px;
+}
+
+#altBtn {
+    height: 28px;
+}
+
+#inputBaseAmount {
+    margin: 0;
+    background-color: white;
+    color: black;
+    width: 150px;
+    height: 28px;
+}
+
+#converterBtn {
+
+}
+
+#exchangeIcon {
+    font-size: 1.8rem;
+    margin: 0 10px;
+    color: white;
+}
+#exchangeIcon:hover {
+    font-size: 1.8rem;
+    
+}
+
+#chartContainer {
+    margin-bottom: 75px;
+}
+#switch:hover {
+    transform: rotate(360deg);
+}
+#switch:focus {
+    transform: rotate(360deg);
+}
