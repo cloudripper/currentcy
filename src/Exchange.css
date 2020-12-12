@@ -8,29 +8,62 @@
     padding-bottom: .25rem !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
- 
-    
-
+    margin: 3px;
+    border: 1px solid black;
+    border-radius: 25px;  
+    font-weight: 700;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: rgba(166, 168, 175, 1);
+}
+.customDropdownItem:hover {
+  box-shadow: 0 0 0 .2rem rgba(80, 93, 107, 0.719);
+  font-weight: 900;
+  color: lightgray;
+  border: 2px solid rgba(166, 168, 175, 1);
+  background-color: rgba(75, 192, 192, 0.6);
+}
+.customDropdownItem:active {
+  box-shadow: 0 0 0 0.2rem rgba(52, 76, 102, 0.25);
+  font-weight: 900;
+  color: black;
+  background-color: rgba(75, 192, 192, 0.6);
+  border: 3px solid rgba(0,0,0,.70);
 }
 
 .customMenu {
     border-color: grey;
     border-radius: 10%;
     overflow-x: auto;
-    height: 200px;
+    height: 400px;
+    width: 350px;
+
+}
+
+.dropdown-menu {
+  opacity: 0;
 }
 
 .dropdown-menu.show {
+    border-radius: 15px;
+    border: 3px solid rgba(75, 192, 192, 0.8) ;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
-    height: 200px;
-    width: 250px !important;
-    background-color: grey;
+    height: 400px;
+    width: 300px !important;
+    background-color: rgba(0,0,0,.80);
+    align-items: center;
+    justify-content: space-around;
+    opacity: 1;
+    transition: opacity .7s;
 }
 
 .primaryBtn {
-  background-color:rgba(255, 255, 255, 0.75)
+  background-color:rgba(255, 255, 255, 0.75);
+ 
 }
 
 .btnTxt {
@@ -43,7 +76,7 @@
     font-weight: 700;
     width: 80px;
     height: 80px;
-
+    border: 2px solid rgba(0,0,0,.75);
     padding: 0;
     border-radius: 50%;  
     color: black;
@@ -67,8 +100,8 @@
 .customBtn:hover {
   box-shadow: 0 0 0 0.2rem rgba(52, 76, 102, 0.25);
   font-weight: 900;
-  
 }
+
 
 .btnBg  {
   width: 80px;
@@ -82,15 +115,56 @@
   opacity: 20%;
   background-size: 125px;
   background-position: center;
-  border: 3px solid rgba(102, 153, 247, 0.322);
+  border: 3px solid rgba(0,0,0,1);
 }
 
+.btnBg:hover {
+  opacity: 35%;
+  text-decoration: none;
+}
+
+.btnBg:active {
+  opacity: 55%;
+  text-decoration: none;
+}
+
+#chartStyle {
+  margin-top: 25px;
+  padding: 10px 0;
+  border: 3px solid rgba(75, 192, 192, 0.8) ;
+  border-radius: 15px;
+  background-color:  rgba(0,0,0,.75);
+  color: white;
+}
+
+#rateContainer {
+  border-radius: 15px;
+  height: 750px;
+  display: flex;
+  overflow-y: auto;
+  overflow-x: hidden;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  flex-wrap: wrap;
+  background: linear-gradient(270deg,#4f6373,#0b273c);
+
+}
+
+@media (max-width: 767px) {
+
+
+
+}
+
+
+/*
 .btnBg:hover {
   opacity: 100%;
  
 }
-
-
+*/
+/*
 @media (prefers-reduced-motion: reduce) {
     .customBtn {
       transition: none;
@@ -101,17 +175,11 @@
     opacity: 35%;
     text-decoration: none;
   }
-  
-  .customBtn:focus, .btn.focus {
+/*
+  .customBtn:focus {
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
 
-  #chartStyle {
-    margin-top: 25px;
-    padding: 10px 0;
-    border: 2px solid darkgray;
-    border-radius: 15px;
-    background-color:  rgba(0,0,0,.75);
-    color: white;
-  }
+
+*/

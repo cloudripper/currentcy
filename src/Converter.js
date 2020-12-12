@@ -13,7 +13,7 @@ library.add( fab, faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle, faEx
 
 
 const Converter = (props) => {
-    const { primBase, altCurr, currencyList, fetchData, onChangeBase, onChangeAltBase } = props
+    const { primBase, altCurr, currencyList, fetchData, onChangeBase, onChangeAltBase, switchBase } = props
     const [base, setBase] = useState(primBase)
     const [altBase, setAltBase] = useState(altCurr)
     const [altRate, setAltRate] = useState(fetchData[0][fetchData[1]][altCurr])
@@ -63,10 +63,10 @@ const Converter = (props) => {
                             <div className="btnBg" style={{backgroundImage: `url(https://flagcdn.com/64x48/${primInfo["key"]}.png)`}}></div>
                             <span className="btnTxt"><br/>{base}<br/></span>
                         </div>
-                        <div className="dropdown-menu customMenu rounded" >                            
+                        <div className="dropdown-menu" >                            
                                 {currencies.map((currency, index) => {
                                     if (currency !== base) {
-                                        return <div className="dropdown-item customDropdownItem col-3"><p key={index} currency={currency} type="button" className="btn customBtn" onClick={() => props.onChangeBase(currency)}>{currency}</p></div>
+                                        return <div className="customDropdownItem"><p key={index} currency={currency} type="button" onClick={() => props.onChangeBase(currency)}>{currency}</p></div>
                                     }
                                     return;
                                 })}                                  
@@ -83,7 +83,7 @@ const Converter = (props) => {
                     </form>
                 </div>
                 <div>
-                    <FontAwesomeIcon className="aniMe" id="exchangeIcon" icon="exchange-alt" />
+                <button className="py-0" type="button" id="switchBtn" onClick={() => props.switchBase(base, altBase)}><FontAwesomeIcon className="aniMe" id="exchangeIcon" icon="exchange-alt" /></button>
                 </div>
                 <div className="text-center currencyStyle">
                     <p className="mt-5 mb-0">{altInfo["country"]}</p>
@@ -92,10 +92,10 @@ const Converter = (props) => {
                             <div className="btnBg" style={{backgroundImage: `url(https://flagcdn.com/64x48/${altInfo["key"]}.png)`}}></div>
                             <span className="btnTxt"><br/>{altBase}<br/></span>
                         </div>
-                        <div className="dropdown-menu customMenu rounded" >                            
+                        <div className="dropdown-menu" >                            
                                 {currencies.map((currency, index) => {
                                     if (currency !== altBase && currency !== base) {
-                                        return <div className="dropdown-item customDropdownItem col-3"><p key={index} currency={currency} type="button" className="btn customBtn" onClick={() => props.onChangeAltBase(currency)}>{currency}</p></div>
+                                        return <div className="customDropdownItem"><p key={index} currency={currency} type="button" onClick={() => props.onChangeAltBase(currency)}>{currency}</p></div>
                                     }
                                     return;
                                 })}                                  
@@ -104,9 +104,9 @@ const Converter = (props) => {
                     <p>{altInfo["currency"]}</p>
                     <div className="input-group flex-item justify-content-center pb-3" id="converterBtn">
                         <div className="input-group-prepend inputButton">
-                                <button className="btn border border-light rounded-left py-0" type="button" id="altBtn" disabled>=</button>
+                                <button className="btn border border-light rounded-left py-0" type="button" id="altBtn">{altBase}</button>
                         </div>
-                        <p className="pl-2 border border-light border-left-0 rounded-right inputStyle inputButton" id="inputBaseAmount">{sum} {altBase}</p>
+                        <p className="pl-2 border border-light border-left-0 rounded-right inputStyle inputButton" id="inputBaseAmount">{sum}</p>
                     </div>
                 </div>
                 

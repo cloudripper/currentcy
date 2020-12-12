@@ -35,7 +35,9 @@ export const json = (response) => response.json()
 //}
 
 const wkendChk = (date) => {
-    let weekendChk = new Date(date)
+    let newDate = new Date(date)
+    let utcDate = newDate.setUTCHours(12)
+    let weekendChk = new Date(utcDate)
     let wkndMilli = weekendChk.getTime()
 
     while (weekendChk.getDay() > 5 || weekendChk.getDay() < 1) {
@@ -57,6 +59,7 @@ export const dateIterate = (start, end) => {
     const endDate = new Date(end)
     const currentMilli = endDate.getTime()
     const startDate = wkendChk(start)
+    console.log('Start date??: ', startDate)
     
     const startMilli = startDate.getTime()
     const datesArray = []

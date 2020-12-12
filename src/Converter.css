@@ -17,6 +17,7 @@
 }
 
 #altBtn {
+    color: white;
     height: 28px;
 }
 
@@ -28,9 +29,11 @@
     height: 28px;
 }
 
-#converterBtn {
-
+#submitBtn {
+    color: white;
+    width: 55px;
 }
+
 
 #exchangeIcon {
     font-size: 1.8rem;
@@ -45,9 +48,46 @@
 #chartContainer {
     margin-bottom: 75px;
 }
-#switch:hover {
-    transform: rotate(360deg);
+
+#switchBtn {
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    transition: transform 1s;
+    transform: rotate(-0deg);
 }
-#switch:focus {
-    transform: rotate(360deg);
+
+#switchBtn:hover {
+    transition: transform 1s;
+    transform: rotate(180deg);
 }
+
+@media (max-width: 767px) {
+
+    #contentsStyle {
+        margin-left: 2%;
+        margin-right: 2%;
+    }    
+    #exchangeIcon {
+        margin: 0 5px;
+    }
+    #inputBaseAmount {
+        width: 85px;
+    }
+    #submitBtn {
+        padding: 0;
+        width: 35px;
+    }
+    #altBtn {
+        padding: 0 2px;
+    }
+  }
+
+
+  @media (min-width: 768px) and (max-width: 992px) {
+    #contentsStyle {
+        margin-left: 10%;
+        margin-right: 10%;
+    }    
+
+  }

@@ -7,16 +7,7 @@
     border-radius: 50%;
 }
 
-#rateContainer {
-    border-radius: 15px;
-    height: 750px;
-    display: flex;
-    overflow-y: auto;
-    flex-direction: column;
-    flex-wrap: wrap;
-    background: linear-gradient(270deg,#4f6373,#0b273c);
 
-}
 
 
 .rateStyle {
@@ -25,21 +16,25 @@
 }
 
 .rateCurr {
-    color:#003496;
+    color:#123c6d;
 }
 
 .popperStyle {
     width: 150px;
     height: 150px;
-    border: 1px solid darkgrey ;
+    border: 3px solid rgba(75, 192, 192, 0.8) ;
     border-radius: 5%;
-    background-color: #93d9d9;
+    background-color: rgba(0,0,0,.80);
     padding: .5rem .5rem;
+    color: white;
+    opacity: 1;
+    transition: opacity .7s;
 }
 
 .popperStyle-hidden {
     visibility: hidden;
     pointer-events: none;
+    opacity: 0;
 }
 
 .rateBtn {
@@ -58,7 +53,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    padding: 0 0.75rem;
+    padding: 0 ;
     font-size: 1rem;
     background-color: rgba(166, 168, 175, 0.6);
    /* transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;*/
@@ -69,7 +64,24 @@
   font-weight: 900;
 }
 
+.rateBtn:active {
+    background-color: rgba(56, 146, 146, 0.6) !important;
+}
 
+
+@media (max-width: 767px) {
+
+    .rateBtn {
+      width: 78px;
+      height: 78px;
+  
+    }
+  
+  }
+  
+
+/*
 .rateBtn:focus {
     background-color: #93d9d9;
 }
+*/

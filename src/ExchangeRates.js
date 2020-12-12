@@ -13,12 +13,13 @@ import { useData, RateChart, useCustom, useCurrency, useDataReducer, currencyCon
 library.add( faPlusCircle );
 
 export const ExchangeRates = (props) => {
-    const { baseInput, currList, currData, parentResults, handleAltChange } = props;
+    const { baseInput, passCurrency, currData, passRate, passAltBase, handleAltChange } = props;
     const [base, setBase] = useState(baseInput)
-    const [currencies, setCurrencies] = useState(currList)
+    const [currency, setCurrency] = useState(passCurrency)
     const [currencyData, setCurrencyData] = useState(currData)
-    const [results, setResults] = useState(parentResults)
-
+    //const [results, setResults] = useState(parentResults)
+    const [rate, setRate] = useState(passRate)
+    const [altBase, setAltBase] = useState(passAltBase)
     const [isShown, setIsShown] = useState(false);
     const [referenceElement, setReferenceElement] = useState(null);
     const [popperElement, setPopperElement] = useState(null);
@@ -48,44 +49,22 @@ export const ExchangeRates = (props) => {
       });
 
     useEffect(() => {    
-//        dispatch({ base: baseInput })
     }, [])
 
-    const changeToggler = (key) => {
-        setIsShown(!isShown)   
+    const changeToggler = (e) => {
+        setIsShown(!isShown)
      }
 
     return (
-
-        <div className="d-flex justify-content-center border mt-5" id="rateContainer"> 
-            {(() => {
-                return currencies.map((currency) => {
-                    for (var key in results) {                               
-                        if (currency === key && currency !== base) {     
-
-                            let rate = results[key]
-                            //<button className={ (isShown) ? "rateBtn btnOn" : "rateBtn btnOff" } type="button" ref={setReferenceElement} value={currency} onFocus={ changeToggler(key) } onBlur={ changeToggler(key) } onClick={() => {props.handleAltChange(currency)}}> 
-                        //    <div id="popper" className={ (isShown) ? "popperStyle" : "popperStyle-hidden" } ref={setPopperElement} style={styles.popper} {...attributes.popper} onClick={changeToggler} >
-                        //    <span style={{ fontWeight: "700" }}>{currencyData[currency]["currency"]}</span><br />{currencyData[currency]["country"]}<br /><span style={{ fontSize: ".8rem" }}>- {currencyData[currency]["region"]} -</span><br /><img className="mt-2" src={`https://flagcdn.com/64x48/${currencyData[currency]["key"]}.png`} />
-                        //    <div id="popper" className={ (isShown) ? "arrowStyle" : "arrowStyle-hidden" } ref={setArrowElement} style={styles.arrow} />
-                        //</div> 
-                            return (
-                                <>
-                                    <button className="rateBtn" type="button" ref={setReferenceElement} value={currency} onFocus={ changeToggler } onBlur={ changeToggler } onClick={() => {props.handleAltChange(currency)}}> 
-                                        <span className="rateStyle" value={currency}>{rateRounder(rate)}</span><br/><span className="rateCurr" value={currency}>{currency}</span>
-                                    </button>
-                                    <div id="popper" className={ (isShown) ? "popperStyle" : "popperStyle-hidden" } ref={setPopperElement} style={styles.popper} {...attributes.popper} onClick={changeToggler} >
-                                        <span style={{ fontWeight: "700" }}>{currencyData[currency]["currency"]}</span><br />{currencyData[currency]["country"]}<br /><span style={{ fontSize: ".8rem" }}>- {currencyData[currency]["region"]} -</span><br /><img className="mt-2" src={`https://flagcdn.com/64x48/${currencyData[currency]["key"]}.png`} />
-                                        <div id="popper" className={ (isShown) ? "arrowStyle" : "arrowStyle-hidden" } ref={setArrowElement} style={styles.arrow} />
-                                    </div> 
-                                </>
-                            );
-                        }
-                    }
-                    return;
-                })
-            })()}
-        </div>  
+        <>
+            <button className="rateBtn" type="button" ref={setReferenceElement} value={currency} style={ (altBase === currency) ? { backgroundColor: "rgba(75, 192, 192, 0.6)"} : {backgroundColor: "rgba(166, 168, 175, 0.6)"}} onMouseEnter={ changeToggler } onMouseLeave={ changeToggler } onClick={() => { if (altBase !== currency) {props.handleAltChange(currency)}}}> 
+                <span className="rateStyle" value={currency}>{rateRounder(rate)}</span><br/><span className="rateCurr" value={currency}>{currency}</span>
+            </button>
+            <div id={currency} className={ (isShown) ? "popperStyle" : "popperStyle-hidden" } ref={setPopperElement} style={styles.popper} {...attributes.popper} onClick={changeToggler} >
+                <span style={{ fontWeight: "700" }}>{currencyData[currency]["currency"]}</span><br />{currencyData[currency]["country"]}<br /><span style={{ fontSize: ".8rem" }}>- {currencyData[currency]["region"]} -</span><br /><img className="mt-2" src={`https://flagcdn.com/64x48/${currencyData[currency]["key"]}.png`} />
+                <div id={"popper"} className={ (isShown) ? "arrowStyle" : "arrowStyle-hidden" } ref={setArrowElement} style={styles.arrow} />
+            </div> 
+        </>           
     )
 }
 

@@ -6,6 +6,8 @@ import { fetchCurrencyList, fetchFunction, dateIterate } from './utils';
 import { Line } from 'react-chartjs-2';
 import { useState, useEffect, useRef, useReducer, createContext, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
+import { usePopper, createPopper } from 'react-popper';
+
 
 
 //let listeners = [];
@@ -98,7 +100,9 @@ export const RateChart = (props) => {
             datasets: [
                 {
                     label: `${base}-${altBase} Exchange Range`,
-                    
+                    borderColor: "darkgrey",
+                    pointBackgroundColor: "lightgrey",
+                    pointBorderWidth: 0,
                     data: data,
                     backgroundColor: [
                         'rgba(75, 192, 192, 0.6)'
@@ -138,21 +142,22 @@ export const RateChart = (props) => {
 
     return(
         <div id="chartStyle">
-            <Line data={chartData} options={{
+            <Line data={chartData} 
+            options={{
                 height: "250px",
-                title: {text: `5-Year Rate Trend`, display: true},
-                legends: {
-                    fontColor: '#93d9d9',
+                title: {text: `Rate Trend`, display: true, fontColor: "white"},
+                legend: {
                     labels: {
-                        fontColor: '#93d9d9',
+                        fontColor: 'lightgray',
                     }
                 },
                 scales: {
                     yAxes: [{
                             ticks: {
                                 autoSkip: true,
+                                autoSkipPadding: 15,
                                 fontColor: 'lightgray',
-                                padding: -5,
+                                padding: 0,
                                 //maxTicksLimit: 10,
                                // beginAtZero: true,
                             }, 
@@ -268,15 +273,17 @@ class Exchange extends React.Component {
 
 
     onLiftAltBase(altCurrency) {
-        const { chartKey } = this.state;
+        const { chartKey, rateKey } = this.state;
         const chKey = chartKey + 1
+        const rKey = rateKey + 1
         console.log("Change altBase: ", altCurrency)
         
         this.props.onChangeAltBase(altCurrency)
 
         this.setState({
             altBase: altCurrency,
-            chartKey: chKey
+            chartKey: chKey,
+            rateKey: rKey
         })
     }
 
@@ -346,10 +353,10 @@ class Exchange extends React.Component {
                                 <div className="btnBg" style={{backgroundImage: `url(https://flagcdn.com/64x48/${currencyKey}.png)`}}></div>
                                 <span className="btnTxt">1<br/>{primaryCurrency}<br/></span>
                             </div>
-                            <div className="dropdown-menu customMenu rounded" onChange={this.handleChange}>                            
+                            <div className="dropdown-menu" onChange={this.handleChange}>                            
                                     {currencies.map((currency, index) => {
                                         if (currency !== primaryCurrency) {
-                                            return <div className="dropdown-item customDropdownItem col-3"><p key={index} currency={currency} type="button" className="btn customBtn" onClick={() => this.props.onChangeBase(currency)}>{currency}</p></div>
+                                            return <div className="customDropdownItem"><p key={index} currency={currency} type="button" onClick={() => this.props.onChangeBase(currency)}>{currency}</p></div>
                                         }
                                         return;
                                     })}                                  
@@ -369,7 +376,20 @@ class Exchange extends React.Component {
                             return <div className="d-flex flex-row flex-lg-column justify-content-center border rounded bg-light mt-5 rateContainer"><p>Loading data...</p></div>;
                         }
                         if (!loading) {
-                            return <ExchangeRates key={rateKey} currData={currencyData} currList={currencies} baseInput={primaryCurrency} parentResults={todayResults} handleAltChange={this.onLiftAltBase} />                          
+                            return (
+                                <div className="d-flex border my-5" id="rateContainer">            
+                                    {(() => {
+                                        return currencies.map((currency, index) => {
+                                            for (var key in todayResults) {                               
+                                                if (currency === key && currency !== primaryCurrency) {     
+                                                    let rate = todayResults[key] 
+                                                    return <ExchangeRates key={rateKey} currData={currencyData} passCurrency={currency} baseInput={primaryCurrency} passAltBase={altBase} passRate={rate} handleAltChange={this.onLiftAltBase} />                                        
+                                                }
+                                            }
+                                        })
+                                    })()}
+                                </div>
+                            )
                         }
                     })()}
                     </div>                    
