@@ -1,108 +1,28 @@
 import React from 'react';
 import './Exchange.css';
-import ExchangeRateUpdate from './GetRates';
 import ExchangeRates from './ExchangeRates';
-import { fetchCurrencyList, fetchFunction, dateIterate } from './utils';
+import { dateIterate } from './utils';
 import { Line } from 'react-chartjs-2';
-import { useState, useEffect, useRef, useReducer, createContext, useContext } from 'react';
-import { withRouter } from 'react-router-dom';
-import { usePopper, createPopper } from 'react-popper';
-
-
-
-//let listeners = [];
-//let state = { altBase: 'HKD' };
-//
-//const setState = (newState) => {
-//    state = { ...state, ...newState };
-//    listeners.forEach((listeners) => {
-//        listeners(state)
-//    })
-//}
-//
-//export const useCustom = (e) => {
-//    console.log("useCustom: ", e)
-//    const newListener = useState()[1];
-//    console.log("useCustom new listener ", newListener)
-//    useEffect(() => { 
-//        listeners.push(newListener);
-//        return () => {
-//            listeners = listeners.filter(listener => listener !== newListener)
-//        };
-//     }, []);
-//     return [state, setState];
-//}
-
-
-//export const currencyReducer = (state, action) => {
-//    if (state != null) {
-//        console.log("what is altbase: ", action.altBase)
-//        state = { altBase: action.altBase }
-//        console.log('state: ', state)
-//        return RateChart("BAS")
-//        }
-//}
-//
-//
-//
-export const useDataReducer = (state, action) => {
-    const [data, setData] = useState({})
-    if (action !== null) {
-        console.log("what is reducer data: ", action)
-        state = { action }
-        console.log('state: ', state)
-        setData(state);
-        console.log('data state: ', data)
-        }
-    
-        console.log('should return data: ', data)
-        return data; 
-}   
+import { useState, useEffect } from 'react';
 
 
 
 export const RateChart = (props) => {
-    //global.currency = useCurrency()
     const { rangeData, base, start, end, passAltBase } = props;
-    const [ dates, setDates ] = useState([])
-    //const [ altBase, setAltBase ] = useState(passAltBase)
     const [chartData, setChartData] = useState({})
-    //const [ altBase, setAltBase ] = (global.currency.altBase)
-    //const altBase = global.currency.altBase
-    //const [ data, setData ] = useData({
-    //    range: rangeData,
-    //    base: base,
-    //    altBase: passAltBase,
-    //    start: start,
-    //    end: end,
-    //})
-
-
     const altBase = passAltBase
-
     const rangeArray = dateIterate(start, end)
- 
-    console.log('altbase: ', altBase)
-
-    const handleAltChange = (e) => {
-        console.log("handleAlk: ", e)
-    //    setAltBase(e)
-    }
-
-
-    
-    
 
     const chart = (data) => {
-        
         setChartData({
             labels: rangeArray,
             datasets: [
                 {
                     label: `${base}-${altBase} Exchange Range`,
                     borderColor: "darkgrey",
-                    pointBackgroundColor: "lightgrey",
+                    pointBackgroundColor: "white",
                     pointBorderWidth: 0,
+                    pointRadius: 2,
                     data: data,
                     backgroundColor: [
                         'rgba(75, 192, 192, 0.6)'
@@ -116,7 +36,6 @@ export const RateChart = (props) => {
 
     const processData = () => {
         const dataArray = []
-        console.log("Array: ", rangeArray)
         rangeArray.forEach(date => {
             if (!rangeData[date]) {
                 dataArray.push(null)
@@ -134,11 +53,6 @@ export const RateChart = (props) => {
         let dataArray = processData()
         chart(dataArray)
     }, [])
-
-    useEffect(() => {
-       // const baseInput = currencyReducer() 
-        //console.log('useEffect Test: ', baseInput)
-    })
 
     return(
         <div id="chartStyle">
@@ -158,8 +72,6 @@ export const RateChart = (props) => {
                                 autoSkipPadding: 15,
                                 fontColor: 'lightgray',
                                 padding: 0,
-                                //maxTicksLimit: 10,
-                               // beginAtZero: true,
                             }, 
                             gridLines: {
                                 display: false
@@ -173,7 +85,6 @@ export const RateChart = (props) => {
                                 maxRotation: 30,
                                 fontColor: 'lightgray',
                                 padding: -2,
-                              //  stepSize: 1
                             },
                             gridLines: {
                                 display: false
@@ -188,10 +99,9 @@ export const RateChart = (props) => {
 
 
 class Exchange extends React.Component {
-    
     constructor(props) {
         super(props);
-        const { base, altCurr, fetchData, currencyList, onChangeBase, onChangeAltBase } = props
+        const { base, altCurr } = props
         this.state = { 
             primaryCurrency: base,
             altBase: altCurr,
@@ -211,8 +121,6 @@ class Exchange extends React.Component {
             startDate: '',
             rangeResults: ''
         }
-        //this.handleCurrencyList = this.handleCurrencyList.bind(this)
-        //this.fetchRates = this.fetchRates.bind(this)
         this.onParentChange = this.onParentChange.bind(this)
         this.onLiftAltBase = this.onLiftAltBase.bind(this)
         this.fetchProcess = this.fetchProcess.bind(this)
@@ -223,13 +131,10 @@ class Exchange extends React.Component {
     componentDidMount () {
         this.fetchProcess()
         this.currencyListProcess()
-        //this.fetchRates();
-        //this.handleCurrencyList();
     }
 
     fetchProcess() {
         const { fetchData } = this.props
-        console.log('xchange Data Process: ', fetchData)
         if (fetchData) {
             this.setState({
                 loading: false,
@@ -276,7 +181,6 @@ class Exchange extends React.Component {
         const { chartKey, rateKey } = this.state;
         const chKey = chartKey + 1
         const rKey = rateKey + 1
-        console.log("Change altBase: ", altCurrency)
         
         this.props.onChangeAltBase(altCurrency)
 
@@ -286,38 +190,6 @@ class Exchange extends React.Component {
             rateKey: rKey
         })
     }
-
-
-    //async fetchRates() {
-    //    const { primaryCurrency } = this.state;
-    //    const fetchResults = await fetchFunction(primaryCurrency);            
-    //    
-    //    await this.setState({ 
-    //        todayResults: fetchResults[0][fetchResults[1]],
-    //        loading: false,
-    //        today: fetchResults[1],
-    //        startDate: fetchResults[2],
-    //        rangeResults: fetchResults[0]
-    //    });
-    //}
-
-    //async handleCurrencyList() {
-    //    const { primaryCurrency, rateKey } = this.state;
-    //    const currJSON = await fetchCurrencyList();
-    //    const primaryKey = rateKey + 1;
-//
-    //    const jsonData = currJSON.data[0][primaryCurrency];
-    //    
-    //    await this.setState({
-    //        currencies: currJSON.list,
-    //        currencyData: currJSON.data[0],
-    //        currencyKey: jsonData["key"],
-    //        currencyType: jsonData["currency"],
-    //        currencyCountry: jsonData["country"],
-    //        currencyRegion: jsonData["region"],
-    //        rateKey: primaryKey, 
-    //    })
-    //}
 
     handleClick(currency) {   
         const { rateKey, chartKey, currencyData } = this.state;
@@ -338,10 +210,6 @@ class Exchange extends React.Component {
 
     render () {
         const {  altBase, primaryCurrency, currencies, currencyType, currencyKey, currencyCountry, currencyData, rateKey, chartKey, todayResults, loading, today, startDate, rangeResults } = this.state;
-    
-        console.log("Today Results: ", todayResults)
-
-        console.log("Render altbase: ", altBase)
 
         return (
             <div className="container">
@@ -356,9 +224,9 @@ class Exchange extends React.Component {
                             <div className="dropdown-menu" onChange={this.handleChange}>                            
                                     {currencies.map((currency, index) => {
                                         if (currency !== primaryCurrency) {
-                                            return <div className="customDropdownItem"><p key={index} currency={currency} type="button" onClick={() => this.props.onChangeBase(currency)}>{currency}</p></div>
+                                            return <div key={index} className="customDropdownItem"><p key={index} currency={currency} type="button" onClick={() => this.props.onChangeBase(currency)}>{currency}</p></div>
                                         }
-                                        return;
+                                        return null;
                                     })}                                  
                             </div>
                         </div>
@@ -379,13 +247,14 @@ class Exchange extends React.Component {
                             return (
                                 <div className="d-flex border my-5" id="rateContainer">            
                                     {(() => {
-                                        return currencies.map((currency, index) => {
+                                        return currencies.map((currency) => {
                                             for (var key in todayResults) {                               
                                                 if (currency === key && currency !== primaryCurrency) {     
                                                     let rate = todayResults[key] 
-                                                    return <ExchangeRates key={rateKey} currData={currencyData} passCurrency={currency} baseInput={primaryCurrency} passAltBase={altBase} passRate={rate} handleAltChange={this.onLiftAltBase} />                                        
+                                                    return <ExchangeRates key={key} currData={currencyData} passCurrency={currency} passAltBase={altBase} passRate={rate} handleAltChange={this.onLiftAltBase} />                                        
                                                 }
                                             }
+                                            return null;
                                         })
                                     })()}
                                 </div>

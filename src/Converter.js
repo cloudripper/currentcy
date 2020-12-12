@@ -1,7 +1,7 @@
 import React from 'react';
 import './Converter.css';
-import { useDataReducer, useData, RateChart } from './Exchange';
-import { useState, useEffect, useRef, useReducer } from 'react';
+import { RateChart } from './Exchange';
+import { useState } from 'react';
 import { rateRounder } from './utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -13,15 +13,13 @@ library.add( fab, faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle, faEx
 
 
 const Converter = (props) => {
-    const { primBase, altCurr, currencyList, fetchData, onChangeBase, onChangeAltBase, switchBase } = props
+    const { primBase, altCurr, currencyList, fetchData } = props
     const [base, setBase] = useState(primBase)
     const [altBase, setAltBase] = useState(altCurr)
     const [altRate, setAltRate] = useState(fetchData[0][fetchData[1]][altCurr])
     const [baseAmount, setBaseAmount] = useState(1)
     const [sum, setSum] = useState(rateRounder(baseAmount * altRate))
-    const [list, setList] = useState(currencyList)
-    const [results, setResults] = useState(fetchData)
-    const [timer, setTimer] = useState(0)
+    
     //Chart//
     const [rangeResults, setRangeResults] = useState(fetchData[0])
     const [chartKey, setChartKey] = useState(0)
@@ -33,24 +31,16 @@ const Converter = (props) => {
     const altInfo = currencyList.data[0][altBase]
     const currencies = currencyList.list
     
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log('event submit,', e)
-    }
-
-    const convertCalc = (e) => {
-        if ((e.timeStamp - timer) > 200) {
-            if (e.target.value > 0) {
-                setTimer(e.timeStamp)
-                setBaseAmount(e.target.value)
-                setSum(rateRounder(e.target.value * altRate))
-            }            
-            if (e.target.value = 0) {
-                setTimer(e.timeStamp)
-                setBaseAmount(e.target.value)
-                setSum("No Base Value")
+     const convertCalc = (e) => {
+        if (e.target.value >= 0) {
+            setBaseAmount(e.target.value)
+            let sumMax = rateRounder(e.target.value * altRate)
+            if (sumMax < 1000000000) {
+                setSum(sumMax)
+            } else {
+                setSum("Too high")
             }
-        }
+        }            
     }
 
     return (
@@ -66,24 +56,24 @@ const Converter = (props) => {
                         <div className="dropdown-menu" >                            
                                 {currencies.map((currency, index) => {
                                     if (currency !== base) {
-                                        return <div className="customDropdownItem"><p key={index} currency={currency} type="button" onClick={() => props.onChangeBase(currency)}>{currency}</p></div>
+                                        return <div key={index} className="customDropdownItem"><p key={index} currency={currency} type="button" onClick={() => props.onChangeBase(currency)}>{currency}</p></div>
                                     }
-                                    return;
+                                    return null;
                                 })}                                  
                         </div>
                     </div>
                     <p>{primInfo["currency"]}</p>
-                    <form onSubmit={handleSubmit}>
+                    <form>
                         <div className="input-group flex-item justify-content-center pb-3 converterBtn">
                             <div className="input-group-prepend inputButton">
                                 <button className="btn border border-light rounded-left py-0 " type="submit" id="submitBtn">{base}</button>
                             </div>
-                            <input type="number" name="baseAmount" value={baseAmount} onChange={convertCalc} placeholder={`${baseAmount} ${base}`} class="pl-2 border border-light border-left-0 rounded-right inputButton" id="inputBaseAmount"  />
+                            <input type="number" min="0" name="baseAmount" onChange={convertCalc} placeholder={`${baseAmount} ${base}`} className="pl-2 border border-light border-left-0 rounded-right inputButton" id="inputBaseAmount"  />
                         </div>
                     </form>
                 </div>
                 <div>
-                <button className="py-0" type="button" id="switchBtn" onClick={() => props.switchBase(base, altBase)}><FontAwesomeIcon className="aniMe" id="exchangeIcon" icon="exchange-alt" /></button>
+                <button type="button" id="switchBtn" onClick={() => props.switchBase(base, altBase)}><FontAwesomeIcon className="aniMe" id="exchangeIcon" icon="exchange-alt" /></button>
                 </div>
                 <div className="text-center currencyStyle">
                     <p className="mt-5 mb-0">{altInfo["country"]}</p>
@@ -95,9 +85,9 @@ const Converter = (props) => {
                         <div className="dropdown-menu" >                            
                                 {currencies.map((currency, index) => {
                                     if (currency !== altBase && currency !== base) {
-                                        return <div className="customDropdownItem"><p key={index} currency={currency} type="button" onClick={() => props.onChangeAltBase(currency)}>{currency}</p></div>
+                                        return <div key={index} className="customDropdownItem"><p key={index} currency={currency} type="button" onClick={() => props.onChangeAltBase(currency)}>{currency}</p></div>
                                     }
-                                    return;
+                                    return null;
                                 })}                                  
                         </div>
                     </div>

@@ -6,10 +6,10 @@ import { faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle, faCommentsDol
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Exchange from "./Exchange";
-import { useCurrency } from "./Exchange";
 import Converter from "./Converter";
-import { useState, useEffect, useRef, useReducer } from 'react';
-import { fetchCurrencyList, fetchFunction, dateIterate } from './utils';
+import { useState, useEffect } from 'react';
+import { fetchCurrencyList, fetchFunction } from './utils';
+
 
 
 library.add( fab, faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle, faCommentsDollar );
@@ -23,8 +23,6 @@ const App = () => {
   const [ base, setBase ] = useState('USD')
   const [ altBase, setAltBase ] = useState('HKD')
   const [ key, setKey ] = useState(0)
-  const [ dataKey, setDataKey ] = useState(0)
-  //const [ listKey, setListKey ] = useState(0)
   const [ fetchResults, setFetchResults ] = useState(null)
   const [ fetchList, setFetchList ] = useState(null)
 
@@ -39,7 +37,6 @@ const App = () => {
       setKey(key + 1)
     } else {
       console.log('Base and AltBase are the same. Select another currency.')
-      return <div>Select another currency</div>
     }
   }
   
@@ -56,7 +53,6 @@ const App = () => {
     const results = await fetchFunction(currency);
     await setFetchResults(results)
     await setKey(key + 1)
-    console.log('base? ', base)
   }
 
   const fetchJSON = async () => {
@@ -76,23 +72,16 @@ const App = () => {
     
   }
 
-  //const fetchCurrencyJSON = async () => {
-  //  const currJSON = await fetchCurrencyList();
-  //  await setFetchList(currJSON)
-  //  await setListKey(listKey + 1)
-  //}
-
   return (
     <Router>
-      <nav className="navbar navbar-expand-md bg-dark nav-font">
+      <nav className="navbar navbar-expand bg-dark nav-font">
         <Link className="navbar-brand nav-font" to="/"><FontAwesomeIcon id="brandIcon" icon="comments-dollar" /> Currentsy</Link>
-        <button className="navbar-toggler" type="button" data-toggler="collapse" data-target="#navbarMenu"><FontAwesomeIcon id="menuIcon" icon="bars" /></button>
         <div className="collapse navbar-collapse" id="navbarMenu">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item active"> 
               <Link className="nav-link nav-font" to="/">Exchange Rates</Link>
             </li>
-            <li className="nav-item active"> 
+            <li className="nav-item"> 
               <Link className="nav-link nav-font" to="/calc">Currency Converter</Link>
             </li>
           </ul>
