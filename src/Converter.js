@@ -31,7 +31,11 @@ const Converter = (props) => {
     const altInfo = currencyList.data[0][altBase]
     const currencies = currencyList.list
     
-     const convertCalc = (e) => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    }
+
+    const convertCalc = (e) => {
         if (e.target.value >= 0) {
             setBaseAmount(e.target.value)
             let sumMax = rateRounder(e.target.value * altRate)
@@ -63,7 +67,7 @@ const Converter = (props) => {
                         </div>
                     </div>
                     <p>{primInfo["currency"]}</p>
-                    <form>
+                    <form onSubmit={handleSubmit} >
                         <div className="input-group flex-item justify-content-center pb-3 converterBtn">
                             <div className="input-group-prepend inputButton">
                                 <button className="btn border border-light rounded-left py-0 " type="submit" id="submitBtn">{base}</button>
