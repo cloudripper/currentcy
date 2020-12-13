@@ -21,6 +21,9 @@ const wkendChk = (date) => {
 }
 
 export const dateIterate = (start, end) => {
+    let dateArray = []
+    
+    console.log('Range start ', start)
     const endDate = new Date(end)
     const currentMilli = endDate.getTime()
     const startDate = wkendChk(start)
@@ -49,41 +52,68 @@ export const dateIterate = (start, end) => {
         let date = [year, month(), day()].join('-');
         datesArray.push(date)
     }
-    
+    console.log(' array ', dateArray)
     return datesArray
 }
 
 
-const dateFormat = () => {
+export const dateFormat = () => {
     const dateRaw = new Date();
     let year = dateRaw.getFullYear()
     let startyear = year - 1
     const month = () => {
-        let mm = dateRaw.getMonth() + 1
-        if (mm.toString().length < 2) {
-            return '0' + mm
-        } 
-        return mm
-    }
-    const day = () => {
-        let currentMilli = dateRaw.getTime()
-// Weekend Check
-        let weekendChk = new Date(currentMilli)
-
-        while (weekendChk.getDay() > 5 || weekendChk.getDay() < 1) {
-            currentMilli = currentMilli - 86400000
-            weekendChk = new Date(currentMilli)
+        const mmString = (month) => {
+            if (month.toString().length < 2) {
+                return '0' + month
+            } else {
+                return month
+            }
         }
-//
-        let dd = weekendChk.getDate()
-        if (dd.toString().length < 2) {
-            return '0' + dd
-        } 
-        return dd
+
+        let mm = mmString(dateRaw.getMonth() + 1)
+        let mmRange2 = mmString(dateRaw.getMonth())
+        let mmRange3 = mmString(dateRaw.getMonth() - 5)
+
+        return [mm, mmRange2, mmRange3]
     }
-    const currentDate = [year, month(), day()].join('-');
-    const startDate = [startyear, month(), day()].join('-');
-    const date = [currentDate, startDate]
+    
+    const day = () => {
+        let presentMilli = dateRaw.getTime()
+        let range1Milli = dateRaw.getTime()
+        range1Milli = range1Milli - 604800000
+
+// Weekend Check
+        const weekndr = (milli) => {
+            let currentMilli = milli
+            let weekendChk = new Date(currentMilli)
+
+            while (weekendChk.getDay() > 5 || weekendChk.getDay() < 1) {
+                currentMilli = currentMilli - 86400000
+                weekendChk = new Date(currentMilli)
+            }
+    //
+            let dd = weekendChk.getDate()
+            if (dd.toString().length < 2) {
+                return '0' + dd
+            } 
+            return dd
+        }
+
+        const currentDay = weekndr(presentMilli)
+        const range1Day = weekndr(range1Milli)
+        return [currentDay, range1Day]
+    }
+
+    const dayOutput = day()
+    const monthOutput = month()
+
+    const currentDate = [year, monthOutput[0], dayOutput[0]].join('-');
+    const startDate = [startyear, monthOutput[0], dayOutput[0]].join('-');
+    const startRange1 = [year, monthOutput[0], dayOutput[1]].join('-');
+    const startRange2 = [year, monthOutput[1], dayOutput[0]].join('-');
+    const startRange3 = [year, monthOutput[2], dayOutput[0]].join('-');
+
+    const date = [currentDate, startDate, startRange1, startRange2, startRange3]
     return date; 
 }
 

@@ -136,6 +136,34 @@
   color: white;
 }
 
+.sliderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.slider {
+  border-radius: 5px;
+  height: 5px;
+  background-color:  rgba(75, 192, 192, 0.8);
+}
+.slider::-webkit-slider-thumb {
+  border-radius: 50%;
+}
+
+.slider::-moz-range-thumb {
+  border-radius: 50%;
+}
+
+#rangeTitle {
+  padding-top: 5px;
+  margin: 0;
+  font-size: .7rem;
+  font-weight: 600;
+  color: lightgray
+}
+
 #rateContainer {
   border-radius: 15px;
   height: 750px;

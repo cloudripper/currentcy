@@ -1,21 +1,58 @@
 import React from 'react';
 import './Exchange.css';
 import ExchangeRates from './ExchangeRates';
-import { dateIterate } from './utils';
+import { dateIterate, dateFormat } from './utils';
 import { Line } from 'react-chartjs-2';
 import { useState, useEffect } from 'react';
-
 
 
 export const RateChart = (props) => {
     const { rangeData, base, start, end, passAltBase } = props;
     const [chartData, setChartData] = useState({})
+    const [dateArray, setDateArray] = useState(dateFormat())
     const altBase = passAltBase
-    const rangeArray = dateIterate(start, end)
+    const [range, setRange] = useState(dateArray[1])
+    const [rangeArray, setRangeArray] = useState(dateIterate(dateArray[1], end))
+    const [rangeTitle, setRangeTitle] = useState("1 Year")
+    const [chKey, setChKey] = useState(1)
+    const [selectKey, setSelectKey] = useState(200)
 
-    const chart = (data) => {
+    const handleChartRange = (e) => {      
+        e.preventDefault();
+        let startdate = []
+        let cap = ''
+        switch (e.target.value) {
+            case "1":
+                cap = "1 Week"
+                startdate = dateArray[2]
+                break;
+            case "2":
+                cap = "1 Month"
+                startdate = dateArray[3]
+                break;
+            case "3":
+                cap = "6 Month"
+                startdate = dateArray[4]
+                break;
+            case "4":
+                cap = "1 Year"
+                startdate = dateArray[1]
+                break;
+            default: 
+                break;
+        }
+        setRange(startdate)
+        setRangeTitle(cap);
+        const newDateRange = dateIterate(startdate, end)
+        console.log('Date Range ', newDateRange)
+        let dataArray = processData(newDateRange)
+        chart(dataArray, newDateRange)  
+        setRangeArray(newDateRange)      
+    }
+
+    const chart = (data, arr) => {
         setChartData({
-            labels: rangeArray,
+            labels: arr,
             datasets: [
                 {
                     label: `${base}-${altBase} Exchange Range`,
@@ -34,9 +71,9 @@ export const RateChart = (props) => {
         })
     }
 
-    const processData = () => {
+    const processData = (arr) => {
         const dataArray = []
-        rangeArray.forEach(date => {
+        arr.forEach(date => {
             if (!rangeData[date]) {
                 dataArray.push(null)
             }
@@ -50,16 +87,16 @@ export const RateChart = (props) => {
     }
 
     useEffect(() => {
-        let dataArray = processData()
-        chart(dataArray)
+        let dataArray = processData(rangeArray)
+        chart(dataArray, rangeArray)
     }, [])
 
     return(
         <div id="chartStyle">
-            <Line data={chartData} 
+            <Line key={chKey} data={chartData} 
             options={{
                 height: "250px",
-                title: {text: `Rate Trend`, display: true, fontColor: "white"},
+                title: {text: `${rangeTitle} Rate Trend`, display: true, fontColor: "white"},
                 legend: {
                     labels: {
                         fontColor: 'lightgray',
@@ -93,6 +130,10 @@ export const RateChart = (props) => {
                     ]
                 }
             }} />
+            <div className="sliderContainer" key={selectKey}> 
+                <input type="range" min="1" max="4" className="mt-2 slider" id="chartRange" onChange={handleChartRange}  />
+                <p className="" id="rangeTitle">Chart Range: {rangeTitle}</p>
+            </div> 
         </div>
     )
 }
