@@ -36,6 +36,7 @@ export const ExchangeRates = (props) => {
     }, [])
 
     const changeToggler = (e) => {
+        e.preventDefault();
         setIsShown(!isShown)
      }
 
