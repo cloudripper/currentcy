@@ -33,7 +33,6 @@ export const ExchangeRates = (props) => {
       });
 
     useEffect(() => {
-        window.addEventListener('touchstart', props.onTouchStart, { passive: false });    
     }, [])
 
     const changeToggler = (e) => {
@@ -43,7 +42,7 @@ export const ExchangeRates = (props) => {
 
     return (
         <>
-            <button className="rateBtn" type="button" ref={setReferenceElement} value={currency} style={ (altBase === currency) ? { backgroundColor: "rgba(75, 192, 192, 0.6)" } : {backgroundColor: "rgba(166, 168, 175, 0.6)"}} onTouchStart={changeToggler} onTouchEnd={changeToggler} onMouseEnter={changeToggler} onMouseLeave={changeToggler}  onClick={() => { if (altBase !== currency) {props.handleAltChange(currency)}}}> 
+            <button className="rateBtn" type="button" ref={setReferenceElement} value={currency} style={ (altBase === currency) ? { backgroundColor: "rgba(75, 192, 192, 0.6)" } : {backgroundColor: "rgba(166, 168, 175, 0.6)"}} onTouchStart={changeToggler} onMouseEnter={changeToggler} onMouseLeave={changeToggler}  onClick={() => { if (altBase !== currency) {props.handleAltChange(currency)}}}> 
                 <span className="rateStyle" value={currency}>{rateRounder(rate)}</span><br/><span className="rateCurr" value={currency}>{currency}</span>
             </button>
             <div id={currency} className={ (isShown) ? "popperStyle" : "popperStyle-hidden" } ref={setPopperElement} style={styles.popper} {...attributes.popper} onClick={changeToggler} >
