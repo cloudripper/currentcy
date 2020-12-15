@@ -53,15 +53,19 @@
     padding: 0 ;
     font-size: 1rem;
     background-color: rgba(166, 168, 175, 0.6);
+    outline: none;
 }
 
 .rateBtn:hover {
   box-shadow: 0 0 0 0.2rem rgba(52, 76, 102, 0.25);
   font-weight: 900;
+  background-color: rgba(103, 105, 110, 0.6) !important;
 }
+
 
 .rateBtn:active {
     background-color: rgba(56, 146, 146, 0.6) !important;
+    outline: none;
 }
 
 

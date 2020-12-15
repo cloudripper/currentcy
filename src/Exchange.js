@@ -162,7 +162,6 @@ class Exchange extends React.Component {
             startDate: '',
             rangeResults: ''
         }
-        this.onParentChange = this.onParentChange.bind(this)
         this.onLiftAltBase = this.onLiftAltBase.bind(this)
         this.fetchProcess = this.fetchProcess.bind(this)
         this.currencyListProcess = this.currencyListProcess.bind(this)
@@ -208,15 +207,6 @@ class Exchange extends React.Component {
             })
         }
     }
-
-
-    onParentChange(e) {  
-        let timerChild = e;
-        if (timerChild === 0) {
-           this.fetchRates();
-        }
-    }
-
 
     onLiftAltBase(altCurrency) {
         const { chartKey, rateKey } = this.state;
