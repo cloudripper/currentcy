@@ -81,6 +81,14 @@ const App = () => {
     }
   }
 
+  const loadExchange = () => {
+    if (!loading) {
+      return <Exchange key={key} base={base} altCurr={altBase} currencyList={fetchList} fetchData={fetchResults} onChangeAltBase={ changeAltBase } onChangeBase={ changeBase } />
+    } else {
+      return <p>Standby: Loading Data...</p>    
+    }
+  }
+
 
   return (
     <Router>
@@ -98,7 +106,7 @@ const App = () => {
         </div>
       </nav>
       <Switch>
-        <Route path="/" exact render={() => <Exchange key={key} base={base} altCurr={altBase} currencyList={fetchList} fetchData={fetchResults} onChangeAltBase={ changeAltBase } onChangeBase={ changeBase } />} />
+        <Route path="/" exact render={loadExchange} />
         <Route path="/calc" render={loadConverter} />
         <Route component={NotFound} />
       </Switch>

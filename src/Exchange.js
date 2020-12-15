@@ -176,14 +176,17 @@ class Exchange extends React.Component {
     }
 
     fetchProcess() {
-        const { fetchData } = this.props
+        const { fetchData, chartKey } = this.props
+        
         if (fetchData) {
+            let chKey = chartKey + 1
             this.setState({
                 loading: false,
                 todayResults: fetchData[0][fetchData[1]],
                 today: fetchData[1],
                 startDate: fetchData[2],
-                rangeResults: fetchData[0]
+                rangeResults: fetchData[0],
+                chartKey: chKey
             })
         }
     }
@@ -264,36 +267,22 @@ class Exchange extends React.Component {
                             </div>
                         </div>
                         <p>{currencyType}</p>
-                        {(() => {
-                            if (!loading) {
-                               return <RateChart key={chartKey} rangeData={rangeResults} base={primaryCurrency} start={startDate} end={today} passAltBase={altBase} />
-                            }
-                         })()}
-                        
+                        <RateChart key={chartKey} rangeData={rangeResults} base={primaryCurrency} start={startDate} end={today} passAltBase={altBase} />
                     </div>
                     <div className="col-lg-6 exRates">
-                    {(() => {
-                        if (loading) {
-                            return <div className="d-flex flex-row flex-lg-column justify-content-center border rounded bg-light mt-5 rateContainer"><p>Loading data...</p></div>;
-                        }
-                        if (!loading) {
-                            return (
-                                <div className="d-flex border my-5" id="rateContainer">            
-                                    {(() => {
-                                        return currencies.map((currency) => {
-                                            for (var key in todayResults) {                               
-                                                if (currency === key && currency !== primaryCurrency) {     
-                                                    let rate = todayResults[key] 
-                                                    return <ExchangeRates key={key} currData={currencyData} passCurrency={currency} passAltBase={altBase} passRate={rate} mobile={mobile} handleAltChange={this.onLiftAltBase} />                                        
-                                                }
-                                            }
-                                            return null;
-                                        })
-                                    })()}
-                                </div>
-                            )
-                        }
-                    })()}
+                        <div className="d-flex border my-5" id="rateContainer">            
+                            {(() => {
+                                return currencies.map((currency) => {
+                                    for (var key in todayResults) {                               
+                                        if (currency === key && currency !== primaryCurrency) {     
+                                            let rate = todayResults[key] 
+                                            return <ExchangeRates key={key} currData={currencyData} passCurrency={currency} passAltBase={altBase} passRate={rate} mobile={mobile} handleAltChange={this.onLiftAltBase} />                                        
+                                        }
+                                    }
+                                    return null;
+                                })
+                            })()}
+                        </div>
                     </div>                    
                 </div>
             </div>
