@@ -16,7 +16,26 @@ library.add( fab, faBars, faCircle, faEnvelope, faChessQueen, faPlusCircle, faCo
 
 
 const NotFound = () => {
-  return <h2>404: Nadda herea</h2>
+  return ( 
+    <div> 
+      <h2>404: Nadda herea</h2>
+      <ul>
+        <li> 
+          <Link to="/">Exchange Rates</Link>
+        </li>
+        <li> 
+          <Link to="/calc">Currency Converter</Link>
+        </li>
+      </ul>
+    </div>    
+  )
+}
+const Loading = () => {
+  return ( 
+    <div> 
+      <h2>Standby: Loading Data...</h2>
+    </div>    
+  )
 }
 
 const App = () => {
@@ -25,6 +44,7 @@ const App = () => {
   const [ key, setKey ] = useState(0)
   const [ fetchResults, setFetchResults ] = useState(null)
   const [ fetchList, setFetchList ] = useState(null)
+  const [ loading, setLoading ] = useState(true)
 
 
   useEffect(() => {    
@@ -60,6 +80,7 @@ const App = () => {
     const list = await fetchCurrencyList();
     await setFetchList(list)
     await setFetchResults(rates)
+    await setLoading(false)
     await setKey(key + 1)
   }
 
@@ -89,7 +110,7 @@ const App = () => {
       </nav>
       <Switch>
         <Route path="/" exact render={() => <Exchange key={key} base={base} altCurr={altBase} currencyList={fetchList} fetchData={fetchResults} onChangeAltBase={ changeAltBase } onChangeBase={ changeBase } />} />
-        <Route render={() => <Converter key={key} primBase={base} altCurr={altBase} currencyList={fetchList} fetchData={fetchResults} onChangeAltBase={ changeAltBase } onChangeBase={ changeBase } switchBase={ switchBase } />} />
+        { (loading) ? <Route component={Loading} /> : <Route path="/calc" render={() => <Converter key={key} primBase={base} altCurr={altBase} currencyList={fetchList} fetchData={fetchResults} onChangeAltBase={ changeAltBase } onChangeBase={ changeBase } switchBase={ switchBase } />} /> }
         <Route component={NotFound} />
       </Switch>
       <footer className="footer pt-3 pb-2 d-flex flew-row">

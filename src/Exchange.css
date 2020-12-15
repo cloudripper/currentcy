@@ -147,6 +147,7 @@
   border-radius: 5px;
   height: 5px;
   background-color:  rgba(75, 192, 192, 0.8);
+  -webkit-appearance: none;
 }
 .slider::-webkit-slider-thumb {
   border-radius: 50%;

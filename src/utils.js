@@ -22,8 +22,6 @@ const wkendChk = (date) => {
 
 export const dateIterate = (start, end) => {
     let dateArray = []
-    
-    console.log('Range start ', start)
     const endDate = new Date(end)
     const currentMilli = endDate.getTime()
     const startDate = wkendChk(start)
@@ -52,7 +50,6 @@ export const dateIterate = (start, end) => {
         let date = [year, month(), day()].join('-');
         datesArray.push(date)
     }
-    console.log(' array ', dateArray)
     return datesArray
 }
 

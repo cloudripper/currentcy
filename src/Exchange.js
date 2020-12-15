@@ -250,7 +250,7 @@ class Exchange extends React.Component {
     }
 
     render () {
-        const {  altBase, primaryCurrency, currencies, currencyType, currencyKey, currencyCountry, currencyData, rateKey, chartKey, todayResults, loading, today, startDate, rangeResults } = this.state;
+        const {  altBase, primaryCurrency, currencies, currencyType, currencyKey, currencyCountry, currencyData, chartKey, todayResults, loading, today, startDate, rangeResults } = this.state;
 
         return (
             <div className="container">
