@@ -6,10 +6,11 @@ import { usePopper } from 'react-popper';
 import './ExchangeRates.css';
 import { rateRounder } from './utils';
 
+
 library.add( faPlusCircle );
 
 export const ExchangeRates = (props) => {
-    const { passCurrency, currData, passRate, passAltBase } = props;
+    const { passCurrency, currData, passRate, passAltBase, mobile } = props;
     const [currency, setCurrency] = useState(passCurrency)
     const [currencyData, setCurrencyData] = useState(currData)
     const [rate, setRate] = useState(passRate)
@@ -35,14 +36,27 @@ export const ExchangeRates = (props) => {
     useEffect(() => {
     }, [])
 
-    const changeToggler = (e) => {
-        e.preventDefault();
-        setIsShown(!isShown)
-     }
+    const changeToggler = () => {
+        if (!mobile) {
+            setIsShown(!isShown)
+        }
+    }
+    
+    const touchToggler = () => {
+        if (mobile) {
+            setIsShown(!isShown)
+        }
+    }
+
 
     return (
         <>
-            <button className="rateBtn" type="button" ref={setReferenceElement} value={currency} style={ (altBase === currency) ? { backgroundColor: "rgba(75, 192, 192, 0.6)" } : {backgroundColor: "rgba(166, 168, 175, 0.6)"}} onTouchStart={changeToggler} onMouseEnter={changeToggler} onMouseLeave={changeToggler}  onClick={() => { if (altBase !== currency) {props.handleAltChange(currency)}}}> 
+            <button className="rateBtn" type="button" ref={setReferenceElement} value={currency} style={ (altBase === currency) ? { backgroundColor: "rgba(75, 192, 192, 0.6)" } : {backgroundColor: "rgba(166, 168, 175, 0.6)"}} 
+                        onTouchStart={touchToggler} 
+                        onTouchEnd={touchToggler} 
+                        onMouseEnter={changeToggler}
+                        onMouseLeave={changeToggler}
+                        onClick={() => { if (altBase !== currency) {props.handleAltChange(currency)}}}> 
                 <span className="rateStyle" value={currency}>{rateRounder(rate)}</span><br/><span className="rateCurr" value={currency}>{currency}</span>
             </button>
             <div id={currency} className={ (isShown) ? "popperStyle" : "popperStyle-hidden" } ref={setPopperElement} style={styles.popper} {...attributes.popper} onClick={changeToggler} >

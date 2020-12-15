@@ -4,6 +4,7 @@ import ExchangeRates from './ExchangeRates';
 import { dateIterate, dateFormat } from './utils';
 import { Line } from 'react-chartjs-2';
 import { useState, useEffect } from 'react';
+import { isMobile } from "react-device-detect";
 
 
 export const RateChart = (props) => {
@@ -160,7 +161,8 @@ class Exchange extends React.Component {
             loading: true,
             today: '',
             startDate: '',
-            rangeResults: ''
+            rangeResults: '',
+            mobile: isMobile,
         }
         this.onLiftAltBase = this.onLiftAltBase.bind(this)
         this.fetchProcess = this.fetchProcess.bind(this)
@@ -240,7 +242,7 @@ class Exchange extends React.Component {
     }
 
     render () {
-        const {  altBase, primaryCurrency, currencies, currencyType, currencyKey, currencyCountry, currencyData, chartKey, todayResults, loading, today, startDate, rangeResults } = this.state;
+        const {  altBase, primaryCurrency, currencies, currencyType, currencyKey, currencyCountry, currencyData, chartKey, todayResults, loading, today, startDate, rangeResults, mobile } = this.state;
 
         return (
             <div className="container">
@@ -282,7 +284,7 @@ class Exchange extends React.Component {
                                             for (var key in todayResults) {                               
                                                 if (currency === key && currency !== primaryCurrency) {     
                                                     let rate = todayResults[key] 
-                                                    return <ExchangeRates key={key} currData={currencyData} passCurrency={currency} passAltBase={altBase} passRate={rate} handleAltChange={this.onLiftAltBase} />                                        
+                                                    return <ExchangeRates key={key} currData={currencyData} passCurrency={currency} passAltBase={altBase} passRate={rate} mobile={mobile} handleAltChange={this.onLiftAltBase} />                                        
                                                 }
                                             }
                                             return null;
