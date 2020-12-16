@@ -54,8 +54,8 @@ export const ExchangeRates = (props) => {
     return (
         <>
             <button className="rateBtn" type="button" ref={setReferenceElement} value={currency} style={ (altBase === currency) ? { backgroundColor: "rgba(75, 192, 192, 0.6)" } : {backgroundColor: "rgba(166, 168, 175, 0.6)"}} 
-                        onTouchStart={changeToggler}
-                        onTouchEnd={changeToggler}
+                        onTouchStart={touchToggler}
+                        onTouchEnd={touchToggler}
                         onMouseOver={changeToggler}
                         onMouseOut={changeToggler}
                         onClick={(e) => { 

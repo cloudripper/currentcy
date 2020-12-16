@@ -118,11 +118,6 @@ export const dateFormat = () => {
     const startRange2 = [year, monthOutput[1], dayOutput[0]].join('-');
     const startRange3 = [year, monthOutput[2], dayOutput[0]].join('-');
 
-    //console.log(Date(startDate))
-    //console.log(Date(startRange1))
-    //console.log(Date(startRange2))
-    //console.log(Date(startRange3))
-
     const date = [currentDate, startDate, startRange1, startRange2, startRange3]
     return date; 
 }
