@@ -21,7 +21,6 @@ const wkendChk = (date) => {
 }
 
 export const dateIterate = (start, end) => {
-    let dateArray = []
     const endDate = new Date(end)
     const currentMilli = endDate.getTime()
     const startDate = wkendChk(start)
@@ -55,9 +54,11 @@ export const dateIterate = (start, end) => {
 
 
 export const dateFormat = () => {
-    const dateRaw = new Date();
+    const dateRaw = new Date()
+
     let year = dateRaw.getFullYear()
     let startyear = year - 1
+    
     const month = () => {
         const mmString = (month) => {
             if (month.toString().length < 2) {
@@ -74,8 +75,14 @@ export const dateFormat = () => {
         return [mm, mmRange2, mmRange3]
     }
     
-    const day = () => {
+    const day = () => {        
         let presentMilli = dateRaw.getTime()
+// Timezone correction - current date for fetch must be UTC date to avoid (+) timezone bug
+        let localTime = dateRaw.getHours()
+        let UTCTime = dateRaw.getUTCHours()
+        const timeDifference = (localTime - UTCTime) * 3600000
+        presentMilli = presentMilli - timeDifference
+//
         let range1Milli = dateRaw.getTime()
         range1Milli = range1Milli - 604800000
 
@@ -110,6 +117,11 @@ export const dateFormat = () => {
     const startRange2 = [year, monthOutput[1], dayOutput[0]].join('-');
     const startRange3 = [year, monthOutput[2], dayOutput[0]].join('-');
 
+    //console.log(Date(startDate))
+    //console.log(Date(startRange1))
+    //console.log(Date(startRange2))
+    //console.log(Date(startRange3))
+
     const date = [currentDate, startDate, startRange1, startRange2, startRange3]
     return date; 
 }
@@ -132,7 +144,7 @@ export async function fetchFunction(base) {
     .then((data) => {
         response.push(data.rates)
         response.push(currentDate)
-        response.push(date[1])
+        response.push(startDate)
     }).catch((error) =>  {
         console.log(error.message)
     })

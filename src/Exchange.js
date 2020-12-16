@@ -45,7 +45,6 @@ export const RateChart = (props) => {
         setRange(startdate)
         setRangeTitle(cap);
         const newDateRange = dateIterate(startdate, end)
-        console.log('Date Range ', newDateRange)
         let dataArray = processData(newDateRange)
         chart(dataArray, newDateRange)  
         setRangeArray(newDateRange)      
