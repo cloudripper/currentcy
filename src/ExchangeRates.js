@@ -45,7 +45,6 @@ export const ExchangeRates = (props) => {
     
     const touchToggler = (e) => {
         if (mobile) {
-                e.preventDefault();
                 setIsShown(!isShown)
         }
     }
