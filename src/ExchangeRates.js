@@ -36,15 +36,17 @@ export const ExchangeRates = (props) => {
     useEffect(() => {
     }, [])
 
-    const changeToggler = () => {
+    const changeToggler = (e) => {
         if (!mobile) {
-            setIsShown(!isShown)
+                e.preventDefault();
+                setIsShown(!isShown)
         }
     }
     
-    const touchToggler = () => {
+    const touchToggler = (e) => {
         if (mobile) {
-            setIsShown(!isShown)
+                e.preventDefault();
+                setIsShown(!isShown)
         }
     }
 
@@ -52,14 +54,16 @@ export const ExchangeRates = (props) => {
     return (
         <>
             <button className="rateBtn" type="button" ref={setReferenceElement} value={currency} style={ (altBase === currency) ? { backgroundColor: "rgba(75, 192, 192, 0.6)" } : {backgroundColor: "rgba(166, 168, 175, 0.6)"}} 
-                        onTouchStart={touchToggler} 
-                        onTouchEnd={touchToggler} 
-                        onMouseEnter={changeToggler}
-                        onMouseLeave={changeToggler}
-                        onClick={() => { if (altBase !== currency) {props.handleAltChange(currency)}}}> 
+                        onTouchStart={changeToggler}
+                        onTouchEnd={changeToggler}
+                        onMouseOver={changeToggler}
+                        onMouseOut={changeToggler}
+                        onClick={(e) => { 
+                            if (altBase !== currency) {props.handleAltChange(currency)}
+                        }}> 
                 <span className="rateStyle" value={currency}>{rateRounder(rate)}</span><br/><span className="rateCurr" value={currency}>{currency}</span>
             </button>
-            <div id={currency} className={ (isShown) ? "popperStyle" : "popperStyle-hidden" } ref={setPopperElement} style={styles.popper} {...attributes.popper} onClick={changeToggler} >
+            <div id={currency} className={ (isShown) ? "popperStyle" : "popperStyle-hidden" } ref={setPopperElement} style={styles.popper} {...attributes.popper} >
                 <span style={{ fontWeight: "700" }}>{currencyData[currency]["currency"]}</span><br />{currencyData[currency]["country"]}<br /><span style={{ fontSize: ".8rem" }}>- {currencyData[currency]["region"]} -</span><br /><img className="mt-2" alt={`${currencyData[currency]["key"]}-Flag`} src={`https://flagcdn.com/64x48/${currencyData[currency]["key"]}.png`} />
                 <div id={"popper"} className={ (isShown) ? "arrowStyle" : "arrowStyle-hidden" } ref={setArrowElement} style={styles.arrow} />
             </div> 

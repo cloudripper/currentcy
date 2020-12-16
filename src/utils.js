@@ -80,6 +80,7 @@ export const dateFormat = () => {
 // Timezone correction - current date for fetch must be UTC date to avoid (+) timezone bug
         let localTime = dateRaw.getHours()
         let UTCTime = dateRaw.getUTCHours()
+        console.log("UTC Time: ", UTCTime, ". Local Time: ", (localTime - UTCTime))
         const timeDifference = (localTime - UTCTime) * 3600000
         presentMilli = presentMilli - timeDifference
 //
