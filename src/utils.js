@@ -77,13 +77,13 @@ export const dateFormat = () => {
     
     const day = () => {        
         let presentMilli = dateRaw.getTime()
-// Timezone correction - current date for fetch must be UTC date to avoid (+) timezone bug
-        let localTime = dateRaw.getHours()
-        let UTCTime = dateRaw.getUTCHours()
-        console.log("UTC Time: ", UTCTime, ". Local Time: ", (localTime - UTCTime))
-        const timeDifference = (localTime - UTCTime) * 3600000
-        presentMilli = presentMilli - timeDifference
-//
+//// Timezone correction - DISABLED
+//        let localTime = dateRaw.getHours()
+//        let UTCTime = dateRaw.getUTCHours()
+//        console.log("UTC Time: ", UTCTime, ". Local Time: ", (localTime - UTCTime))
+//        const timeDifference = (localTime - UTCTime) * 3600000
+//        presentMilli = presentMilli - timeDifference
+////
         let range1Milli = dateRaw.getTime()
         range1Milli = range1Milli - 604800000
 
@@ -113,12 +113,14 @@ export const dateFormat = () => {
     const monthOutput = month()
 
     const currentDate = [year, monthOutput[0], dayOutput[0]].join('-');
-    const startDate = [startyear, monthOutput[0], dayOutput[0]].join('-');
-    const startRange1 = [year, monthOutput[0], dayOutput[1]].join('-');
-    const startRange2 = [year, monthOutput[1], dayOutput[0]].join('-');
-    const startRange3 = [year, monthOutput[2], dayOutput[0]].join('-');
+    //Default Range
+    const startRangeOneYear = [startyear, monthOutput[0], dayOutput[0]].join('-');
+    //
+    const startRangeOneWeek = [year, monthOutput[0], dayOutput[1]].join('-');
+    const startRangeOneMonth = [year, monthOutput[1], dayOutput[0]].join('-');
+    const startRangeSixMonth = [year, monthOutput[2], dayOutput[0]].join('-');
 
-    const date = [currentDate, startDate, startRange1, startRange2, startRange3]
+    const date = [currentDate, startRangeOneYear, startRangeOneWeek, startRangeOneMonth, startRangeSixMonth]
     return date; 
 }
 
@@ -127,7 +129,7 @@ export async function fetchFunction(base) {
     
     const response = []
     const date = dateFormat()
-    const currentDate = date[0]
+    let currentDate = date[0]
     const startDate = date[1]
     const rUrl = `https://alt-exchange-rate.herokuapp.com/history?start_at=${startDate}&end_at=${currentDate}&base=${base}`
 
@@ -139,10 +141,14 @@ export async function fetchFunction(base) {
     .then(json)
     .then((data) => {
         response.push(data.rates)
+        if (currentDate !== Object.keys(data.rates).pop()) {
+            currentDate = Object.keys(data.rates).pop()
+            console.log("Fetch current date changed")
+        }
         response.push(currentDate)
         response.push(startDate)
     }).catch((error) =>  {
-        console.log(error.message)
+        console.log("Fetch Error: ", error)
     })
     return response;
 }

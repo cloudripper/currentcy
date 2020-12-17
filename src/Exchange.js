@@ -8,7 +8,7 @@ import { isMobile } from "react-device-detect";
 
 
 export const RateChart = (props) => {
-    const { rangeData, base, start, end, passAltBase } = props;
+    const { rangeData, base, end, passAltBase } = props;
     const [chartData, setChartData] = useState({})
     const [dateArray, setDateArray] = useState(dateFormat())
     const altBase = passAltBase
